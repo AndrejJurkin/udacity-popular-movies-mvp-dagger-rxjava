@@ -23,6 +23,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,9 +36,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
-import jurkin.popularmovies.App;
 import jurkin.popularmovies.R;
-import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.base.BaseFragment;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.ui.moviedetail.MovieDetailActivity;
@@ -64,6 +65,18 @@ public class DiscoveryFragment extends BaseFragment
         return new DiscoveryFragment();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -80,9 +93,24 @@ public class DiscoveryFragment extends BaseFragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_discovery, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_popular:
+                presenter.onPopularMoviesClicked();
+                break;
+            case R.id.menu_top_rated:
+                presenter.onTopRatedMoviesClicked();
+                // Falls through
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -112,5 +140,10 @@ public class DiscoveryFragment extends BaseFragment
     @Override
     public void onMovieClicked(Movie movie) {
         presenter.onMovieClicked(movie);
+    }
+
+    @Override
+    public void setActionBarTitle(int resId) {
+        getActivity().setTitle(resId);
     }
 }

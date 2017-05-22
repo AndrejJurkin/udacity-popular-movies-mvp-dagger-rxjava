@@ -15,6 +15,15 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/menu_popular"
+        android:title="@string/sort_most_popular"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_top_rated"
+        android:title="@string/sort_top_rated"
+        app:showAsAction="never" />
 </menu>

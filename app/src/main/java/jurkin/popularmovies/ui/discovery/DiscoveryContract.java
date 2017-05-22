@@ -42,12 +42,16 @@ public interface DiscoveryContract {
         void showMovies(List<Movie> movies);
 
         void showDetail(Movie movie);
+
+        void setActionBarTitle(int resId);
     }
 
     interface Presenter extends BasePresenter {
         void onMovieClicked(Movie movie);
 
-        void setFilterFlags(int flags);
+        void onPopularMoviesClicked();
+
+        void onTopRatedMoviesClicked();
     }
 
     @Module
