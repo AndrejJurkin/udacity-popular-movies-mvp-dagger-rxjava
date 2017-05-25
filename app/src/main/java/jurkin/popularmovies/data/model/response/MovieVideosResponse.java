@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.api;
+package jurkin.popularmovies.data.model.response;
 
-import jurkin.popularmovies.data.model.response.MovieResponse;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import rx.Observable;
+import java.util.List;
+
+import jurkin.popularmovies.data.model.MovieVideo;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by ajurkin on 5/25/17.
  */
 
-public interface MovieService {
+public class MovieVideosResponse {
 
-    @GET("movie/popular")
-    Observable<MovieResponse> getPopularMovies();
+    private String id;
+    private List<MovieVideo> videos;
 
-    @GET("movie/top_rated")
-    Observable<MovieResponse> getTopRatedMovies();
+    public String getId() {
+        return id;
+    }
 
-    @GET("movie/{id}/videos")
-    Observable<Void> getVideos(@Path("id") long id);
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    @GET("movie/{id}/reviews")
-    Observable<Void> getReviews(@Path("id") long id);
+    public List<MovieVideo> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<MovieVideo> videos) {
+        this.videos = videos;
+    }
 }
