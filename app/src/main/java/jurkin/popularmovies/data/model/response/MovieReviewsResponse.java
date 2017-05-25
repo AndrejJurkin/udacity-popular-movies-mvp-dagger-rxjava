@@ -40,39 +40,19 @@ public class MovieReviewsResponse {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public int getPage() {
         return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
     }
 
     public List<MovieReviewsResponse> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieReviewsResponse> results) {
-        this.results = results;
-    }
-
     public int getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public int getTotalResults() {
         return totalResults;
-    }
-
-    public void setTotalResults(int totalResults) {
-        this.totalResults = totalResults;
     }
 }

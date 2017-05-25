@@ -28,6 +28,10 @@ public class MovieDetails {
 
     @SerializedName("release_date")
     private Date releaseDate;
+
+    @SerializedName("original_language")
+    private String originalLanguage;
+
     private long revenue;
     private int runtime;
 
@@ -35,23 +39,15 @@ public class MovieDetails {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public long getRevenue() {
         return revenue;
-    }
-
-    public void setRevenue(long revenue) {
-        this.revenue = revenue;
     }
 
     public int getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 }

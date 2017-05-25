@@ -33,15 +33,7 @@ public class MovieVideosResponse {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<MovieVideo> getVideos() {
         return videos;
-    }
-
-    public void setVideos(List<MovieVideo> videos) {
-        this.videos = videos;
     }
 }
