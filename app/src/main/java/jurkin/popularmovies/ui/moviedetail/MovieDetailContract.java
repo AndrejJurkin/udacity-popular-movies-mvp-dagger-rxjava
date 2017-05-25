@@ -47,8 +47,6 @@ public interface MovieDetailContract {
 
         void setUserRating(String userRating);
 
-        void showReleaseDate(String releaseDate);
-
         void setMovieDetailSummary(String summary);
     }
 

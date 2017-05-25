@@ -17,12 +17,10 @@
 package jurkin.popularmovies.ui.moviedetail;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,8 +31,7 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Binds;
-import dagger.android.AndroidInjection;
+import butterknife.OnClick;
 import dagger.android.support.AndroidSupportInjection;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BasePresenterFragment;
@@ -69,6 +66,9 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
 
     @BindView(R.id.movie_detail_summary)
     TextView movieDetailSummary;
+
+    @BindView(R.id.add_to_favorites_button)
+    AppCompatButton addToFavoritesButton;
 
     public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
@@ -135,12 +135,13 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     }
 
     @Override
-    public void showReleaseDate(String releaseDate) {
-
-    }
-
-    @Override
     public void setMovieDetailSummary(String summary) {
         this.movieDetailSummary.setText(summary);
+    }
+
+    @OnClick
+    @SuppressWarnings("unused")
+    public void onAddToFavoritesButtonClick() {
+        this.presenter.onAddToFavoritesButtonClick();
     }
 }

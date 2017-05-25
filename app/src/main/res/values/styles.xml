@@ -40,5 +40,11 @@
 
         <item name="background">@null</item>
     </style>
+    
+    <!-- Base button -->
+    <style name="ButtonColored" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>
