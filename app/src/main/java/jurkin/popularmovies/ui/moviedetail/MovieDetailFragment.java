@@ -136,11 +136,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
 
     @Override
     public void showReleaseDate(String releaseDate) {
-        this.movieDetailSummary.setText(releaseDate);
+
     }
 
     @Override
-    public void showMovieDetailSummary(String summary) {
-
+    public void setMovieDetailSummary(String summary) {
+        this.movieDetailSummary.setText(summary);
     }
 }

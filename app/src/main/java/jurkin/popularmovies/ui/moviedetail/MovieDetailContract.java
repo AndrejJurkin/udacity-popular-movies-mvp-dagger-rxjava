@@ -20,6 +20,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
+import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.base.BasePresenter;
 import jurkin.popularmovies.base.BaseView;
 import jurkin.popularmovies.data.model.Movie;
@@ -48,7 +49,7 @@ public interface MovieDetailContract {
 
         void showReleaseDate(String releaseDate);
 
-        void showMovieDetailSummary(String summary);
+        void setMovieDetailSummary(String summary);
     }
 
     interface Presenter extends BasePresenter {
@@ -77,8 +78,8 @@ public interface MovieDetailContract {
         }
 
         @Provides
-        Presenter providesPresenter(View view, Movie movie) {
-            return new MovieDetailPresenter(view, movie);
+        Presenter providesPresenter(View view, Movie movie, MovieService movieService) {
+            return new MovieDetailPresenter(view, movie, movieService);
         }
     }
 

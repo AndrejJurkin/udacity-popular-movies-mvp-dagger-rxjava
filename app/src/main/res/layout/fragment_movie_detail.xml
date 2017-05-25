@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toRightOf="@+id/movie_poster"
                 app:layout_constraintTop_toBottomOf="@+id/movie_title"
                 tools:text="2017, 120 mins" />

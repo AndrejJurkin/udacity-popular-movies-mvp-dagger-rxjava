@@ -17,26 +17,34 @@
 package jurkin.popularmovies.ui.moviedetail;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.util.Calendar;
 
 import javax.inject.Inject;
 
+import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by ajurkin on 5/21/17.
+ *
+ * TODO: Replace MovieService with data source layer
  */
 
 public class MovieDetailPresenter implements MovieDetailContract.Presenter {
+    private static final String TAG = "MovieDetailPresenter";
 
     private Movie movie;
     private MovieDetailContract.View view;
+    private MovieService movieService;
 
     @Inject
-    MovieDetailPresenter(MovieDetailContract.View view, Movie movie) {
+    MovieDetailPresenter(MovieDetailContract.View view, Movie movie, MovieService movieService) {
         this.view = view;
         this.movie = movie;
+        this.movieService = movieService;
     }
 
     @Override
@@ -47,6 +55,8 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     @SuppressLint("DefaultLocale")
     public void subscribe() {
+        this.loadMovieDetails();
+
         this.view.setTitle(movie.getTitle());
         this.view.setDescription(movie.getOverview());
         this.view.setMainImage(movie.getFullBackdropPath());
@@ -54,14 +64,55 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         this.view.setUserRating(String.format("%.1f (%d)",
                 movie.getVoteAverage(), movie.getVoteCount()));
 
-        Calendar releaseDate = Calendar.getInstance();
-        releaseDate.setTime(movie.getReleaseDate());
-        this.view.showReleaseDate("EN, " + releaseDate.get(Calendar.YEAR));
-
     }
 
     @Override
     public void onAddToFavoritesButtonClick() {
 
+    }
+
+    private void loadMovieDetails() {
+        this.movieService.getMovieDetails(movie.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movieDetails -> {
+                            Log.d(TAG, "Movie details fetched successfully");
+                            Calendar releaseDate = Calendar.getInstance();
+                            releaseDate.setTime(movie.getReleaseDate());
+
+                            String summary = String.format("%s, %s, %s mins",
+                                    movieDetails.getOriginalLanguage().toUpperCase(),
+                                    releaseDate.get(Calendar.YEAR),
+                                    movieDetails.getRuntime());
+
+                            this.view.setMovieDetailSummary(summary);
+                        },
+                        throwable -> Log.e(TAG, "Failed to fetch movie details: " + throwable));
+    }
+
+    private void loadMovieVideos() {
+        this.movieService.getVideos(movie.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movieReviewsResponse -> {
+
+                        },
+                        throwable -> {
+
+                        }
+                );
+    }
+
+    private void loadMovieReviews() {
+        this.movieService.getMovieReviews(movie.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movieReviewsResponse -> {
+
+                        },
+                        throwable -> {
+
+                        }
+                );
     }
 }

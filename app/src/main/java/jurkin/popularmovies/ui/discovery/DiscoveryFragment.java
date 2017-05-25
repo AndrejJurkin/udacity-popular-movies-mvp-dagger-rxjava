@@ -43,6 +43,8 @@ import jurkin.popularmovies.ui.moviedetail.MovieDetailActivity;
 
 /**
  * Created by ajurkin on 5/13/17.
+ *
+ * TODO: refactor to BaseFragment<View>
  */
 public class DiscoveryFragment extends BaseFragment
         implements DiscoveryContract.View, DiscoveryAdapter.OnMovieClickListener {

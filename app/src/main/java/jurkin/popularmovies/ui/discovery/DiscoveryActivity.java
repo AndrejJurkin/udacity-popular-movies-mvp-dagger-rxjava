@@ -24,6 +24,9 @@ import dagger.android.AndroidInjection;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseActivity;
 
+/**
+ * Created by ajurkin on 5/13/17.
+ */
 public class DiscoveryActivity extends BaseActivity {
 
     @Inject
