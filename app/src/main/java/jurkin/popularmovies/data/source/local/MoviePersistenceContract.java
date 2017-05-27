@@ -40,10 +40,14 @@ public final class MoviePersistenceContract {
         String BACKDROP_PATH = "backdrop_path";
         String VOTE_COUNT = "vote_count";
         String VOTE_AVERAGE = "vote_average";
+
+        // Movie details
+        String ORIGINAL_LANGUAGE = "original_language";
+        String RUNTIME = "runtime";
     }
 
     public static abstract class MovieEntry implements BaseColumns, MovieColumns {
-        public static final String TABLE_NAME = "movie";
+
     }
 
 }
