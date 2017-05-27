@@ -18,5 +18,5 @@
     <string name="app_name">Popular Movies</string>
     <string name="sort_most_popular">Popular Movies</string>
     <string name="sort_top_rated">Top Rated Movies</string>
-    <string name="add_to_favorites">Add to favorites</string>
+    <string name="add_to_watchlist">Add to watchlist</string>
 </resources>
