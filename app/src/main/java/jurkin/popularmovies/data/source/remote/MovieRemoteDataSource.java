@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model.response;
-
-import java.util.List;
-
-import jurkin.popularmovies.data.model.Video;
+package jurkin.popularmovies.data.source.remote;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by ajurkin on 5/28/17.
  */
 
-public class MovieVideosResponse {
-
-    private String id;
-    private List<Video> videos;
-
-    public String getId() {
-        return id;
-    }
-
-    public List<Video> getVideos() {
-        return videos;
-    }
+public class MovieRemoteDataSource {
 }

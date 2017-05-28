@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model.response;
+package jurkin.popularmovies.data.source;
 
 import java.util.List;
 
+import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
+import rx.Observable;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by ajurkin on 5/28/17.
  */
 
-public class MovieVideosResponse {
+public interface MovieDataSource {
 
-    private String id;
-    private List<Video> videos;
+    Observable<List<Movie>> getPopularMovies();
 
-    public String getId() {
-        return id;
-    }
+    Observable<List<Movie>> getTopRatedMovies();
 
-    public List<Video> getVideos() {
-        return videos;
-    }
+    Observable<Movie> getMovie(String movieId);
+
+    Observable<Video> getVideos(String movieId);
+
+    Observable<MovieReview> getReviews(String movieId);
 }

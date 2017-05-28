@@ -30,23 +30,47 @@ public final class MoviePersistenceContract {
 
     private MoviePersistenceContract() {}
 
-    public interface MovieColumns {
-        String ID = "movie_id";
-        String TITLE = "title";
-        String OVERVIEW = "overview";
-        String POPULARITY = "popularity";
-        String RELEASE_DATE = "release_date";
-        String POSTER_PATH = "poster_path";
-        String BACKDROP_PATH = "backdrop_path";
-        String VOTE_COUNT = "vote_count";
-        String VOTE_AVERAGE = "vote_average";
+    interface MovieColumns {
+        String MOVIE_ID = "movie_movie_id";
+        String MOVIE_TITLE = "movie_title";
+        String MOVIE_OVERVIEW = "movie_overview";
+        String MOVIE_POPULARITY = "movie_popularity";
+        String MOVIE_RELEASE_DATE = "movie_release_date";
+        String MOVIE_POSTER_PATH = "movie_poster_path";
+        String MOVIE_BACKDROP_PATH = "movie_backdrop_path";
+        String MOVIE_VOTE_COUNT = "movie_vote_count";
+        String MOVIE_VOTE_AVERAGE = "movie_vote_average";
 
         // Movie details
-        String ORIGINAL_LANGUAGE = "original_language";
-        String RUNTIME = "runtime";
+        String MOVIE_ORIGINAL_LANGUAGE = "movie_original_language";
+        String MOVIE_RUNTIME = "movie_runtime";
     }
 
-    public static abstract class MovieEntry implements BaseColumns, MovieColumns {
+    interface ReviewColumns {
+        String REVIEW_ID = "review_id";
+        String REVIEW_AUTHOR = "review_author";
+        String REVIEW_CONTENT = "review_content";
+        String REVIEW_URL = "review_url";
+    }
+
+    interface VideoColumns {
+        String VIDEO_ID = "video_id";
+        String VIDEO_KEY = "video_key";
+        String VIDEO_NAME = "video_name";
+        String VIDEO_SITE = "video_site";
+        String VIDEO_SIZE = "video_size";
+        String VIDEO_TYPE = "video_type";
+    }
+
+    static abstract class MovieEntry implements BaseColumns, MovieColumns {
+
+    }
+
+    static abstract class ReviewEntry implements BaseColumns, ReviewColumns, MovieColumns {
+
+    }
+
+    static abstract class VideoEntry implements BaseColumns, VideoColumns, MovieColumns {
 
     }
 

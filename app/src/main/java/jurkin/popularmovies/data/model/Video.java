@@ -20,7 +20,7 @@ package jurkin.popularmovies.data.model;
  * Created by ajurkin on 5/25/17.
  */
 
-public class MovieVideo {
+public class Video {
 
     private String id;
     private String key;

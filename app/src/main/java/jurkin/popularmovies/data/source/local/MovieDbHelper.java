@@ -22,6 +22,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 import jurkin.popularmovies.data.source.local.MoviePersistenceContract.MovieEntry;
+import jurkin.popularmovies.data.source.local.MoviePersistenceContract.ReviewEntry;
+import jurkin.popularmovies.data.source.local.MoviePersistenceContract.VideoEntry;
 
 /**
  * Created by ajurkin on 5/27/17.
@@ -34,6 +36,12 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     interface Tables {
         String MOVIES = "movies";
+        String REVIEWS = "reviews";
+        String VIDEOS = "videos";
+    }
+
+    interface References {
+        String MOVIE_ID = "REFERENCES " + Tables.MOVIES + "(" + MovieEntry.MOVIE_ID + ")";
     }
 
     public MovieDbHelper(Context context) {
@@ -43,19 +51,41 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
-                + BaseColumns._ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + MovieEntry.ID + " INTEGER NOT NULL,"
-                + MovieEntry.TITLE + " TEXT,"
-                + MovieEntry.OVERVIEW + " TEXT,"
-                + MovieEntry.POPULARITY + " REAL,"
-                + MovieEntry.RELEASE_DATE + " INTEGER, "
-                + MovieEntry.POSTER_PATH + " TEXT,"
-                + MovieEntry.BACKDROP_PATH + " TEXT,"
-                + MovieEntry.VOTE_COUNT + " INTEGER,"
-                + MovieEntry.VOTE_AVERAGE + " REAL,"
-                + MovieEntry.RUNTIME + " INTEGER,"
-                + MovieEntry.ORIGINAL_LANGUAGE + " TEXT,"
-                + "UNIQUE (" + MovieEntry.ID + ") ON CONFLICT REPLACE)"
+                + BaseColumns._ID + "INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL,"
+                + MovieEntry.MOVIE_TITLE + " TEXT,"
+                + MovieEntry.MOVIE_OVERVIEW + " TEXT,"
+                + MovieEntry.MOVIE_POPULARITY + " REAL,"
+                + MovieEntry.MOVIE_RELEASE_DATE + " INTEGER, "
+                + MovieEntry.MOVIE_POSTER_PATH + " TEXT,"
+                + MovieEntry.MOVIE_BACKDROP_PATH + " TEXT,"
+                + MovieEntry.MOVIE_VOTE_COUNT + " INTEGER,"
+                + MovieEntry.MOVIE_VOTE_AVERAGE + " REAL,"
+                + MovieEntry.MOVIE_RUNTIME + " INTEGER,"
+                + MovieEntry.MOVIE_ORIGINAL_LANGUAGE + " TEXT,"
+                + "UNIQUE (" + MovieEntry.MOVIE_ID + ") ON CONFLICT REPLACE)"
+        );
+
+        db.execSQL("CREATE TABLE " + Tables.REVIEWS + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
+                + ReviewEntry.REVIEW_ID + " INTEGER NOT NULL,"
+                + ReviewEntry.REVIEW_AUTHOR + " TEXT,"
+                + ReviewEntry.REVIEW_CONTENT + "TEXT,"
+                + ReviewEntry.REVIEW_URL + " TEXT,"
+                + "UNIQUE (" + ReviewEntry.REVIEW_ID + ") ON CONFLICT REPLACE)"
+        );
+
+        db.execSQL("CREATE TABLE " + Tables.VIDEOS + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + VideoEntry.VIDEO_ID + " INTEGER NOT NULL,"
+                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
+                + VideoEntry.VIDEO_KEY + " TEXT,"
+                + VideoEntry.VIDEO_NAME + " TEXT,"
+                + VideoEntry.VIDEO_SITE + " TEXT,"
+                + VideoEntry.VIDEO_SIZE + " INTEGER,"
+                + VideoEntry.VIDEO_TYPE + " TEXT"
+                + "UNIQUE (" + VideoEntry.VIDEO_ID + ") ON CONFLICT REPLACE)"
         );
     }
 

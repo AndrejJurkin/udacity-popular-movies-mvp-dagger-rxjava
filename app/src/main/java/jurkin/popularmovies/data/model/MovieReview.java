@@ -22,12 +22,12 @@ package jurkin.popularmovies.data.model;
 
 public class MovieReview {
 
-    private String id;
+    private long id;
     private String author;
     private String content;
     private String url;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
