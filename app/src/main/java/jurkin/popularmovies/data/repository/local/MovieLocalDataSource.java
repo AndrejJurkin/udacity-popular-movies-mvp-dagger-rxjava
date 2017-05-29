@@ -14,17 +14,29 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.base;
+package jurkin.popularmovies.data.repository.local;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieResponse;
+import jurkin.popularmovies.data.model.MovieReview;
+import jurkin.popularmovies.data.model.Video;
+import jurkin.popularmovies.data.repository.MovieRepository;
+import rx.Observable;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by ajurkin on 5/28/17.
  */
 
-public interface BasePresenter {
+@Singleton
+public class MovieLocalDataSource  {
 
-    void subscribe();
-
-    void unsubscribe();
-
-    void unsubscribeDataSubscriptions();
+    @Inject
+    public MovieLocalDataSource() {
+        
+    }
 }

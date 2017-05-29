@@ -14,17 +14,42 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.base;
+package jurkin.popularmovies.data.model;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+import jurkin.popularmovies.data.model.Movie;
 
 /**
  * Created by ajurkin on 5/12/17.
  */
 
-public interface BasePresenter {
+public class MovieResponse {
 
-    void subscribe();
+    private int page;
+    private List<Movie> results;
 
-    void unsubscribe();
+    @SerializedName("total_results")
+    private int totalResults;
 
-    void unsubscribeDataSubscriptions();
+    @SerializedName("total_pages")
+    private int totalPages;
+
+    public int getPage() {
+        return page;
+    }
+
+    public List<Movie> getResults() {
+        return results;
+    }
+
+    public int getTotalResults() {
+        return totalResults;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
 }

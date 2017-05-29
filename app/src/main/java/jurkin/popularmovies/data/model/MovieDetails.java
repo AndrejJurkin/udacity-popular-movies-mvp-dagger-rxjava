@@ -33,6 +33,7 @@ public class MovieDetails {
     private String originalLanguage;
 
     private long revenue;
+
     private int runtime;
 
     public Date getReleaseDate() {

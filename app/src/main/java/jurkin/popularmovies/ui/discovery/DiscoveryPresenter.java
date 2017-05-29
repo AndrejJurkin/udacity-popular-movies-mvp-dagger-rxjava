@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.repository.MovieRepository;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -38,29 +39,30 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
     private static final String TAG = "DiscoveryPresenter";
 
     private DiscoveryContract.View view;
-    private MovieService movieService;
+
+    private MovieRepository movieRepository;
     private CompositeSubscription subscriptions;
 
-    private List<Movie> popularMovies;
-    private List<Movie> topRatedMovies;
-
     @Inject
-    DiscoveryPresenter(DiscoveryContract.View view, MovieService movieService) {
+    DiscoveryPresenter(DiscoveryContract.View view, MovieRepository movieRepository) {
         this.view = view;
-        this.movieService = movieService;
         this.subscriptions = new CompositeSubscription();
+        this.movieRepository = movieRepository;
     }
 
     @Override
     public void subscribe() {
-        if (popularMovies == null) {
-            fetchPopularMovies(true);
-            view.setActionBarTitle(R.string.sort_most_popular);
-        }
+        fetchPopularMovies();
+        view.setActionBarTitle(R.string.sort_most_popular);
     }
 
     @Override
     public void unsubscribe() {
+
+    }
+
+    @Override
+    public void unsubscribeDataSubscriptions() {
         this.subscriptions.unsubscribe();
     }
 
@@ -71,59 +73,39 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
 
     @Override
     public void onPopularMoviesClicked() {
-        fetchPopularMovies(false);
+        fetchPopularMovies();
         view.setActionBarTitle(R.string.sort_most_popular);
     }
 
     @Override
     public void onTopRatedMoviesClicked() {
-        fetchTopRatedMovies(false);
+        fetchTopRatedMovies();
         view.setActionBarTitle(R.string.sort_top_rated);
     }
 
-    private void fetchPopularMovies(boolean forceRefresh) {
+    private void fetchPopularMovies() {
         // TODO: show loading indicator
-
-        if (popularMovies == null || forceRefresh) {
-            Subscription getPopularMoviesSubscription = movieService.getPopularMovies()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            movieResponse -> {
-                                Log.d(TAG, "Popular data fetched successfully");
-                                popularMovies = movieResponse.getResults();
-                                view.showMovies(popularMovies);
-                            },
-                            throwable -> {
-                                Log.e(TAG, "Failed to fetch popular movies " + throwable);
-                                // TODO: view.showError
-                            });
-
-            subscriptions.add(getPopularMoviesSubscription);
-        } else {
-            view.showMovies(popularMovies);
-        }
+        subscriptions.add(movieRepository.getPopularMovies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(movies -> {
+                    Log.d(TAG, "Popular data fetched successfully");
+                    view.showMovies(movies);
+                }, throwable -> {
+                    Log.e(TAG, "Failed to fetch popular movies " + throwable);
+                    // TODO: view.showError
+                }));
     }
 
-    private void fetchTopRatedMovies(boolean forceRefresh) {
+    private void fetchTopRatedMovies() {
         // TODO: show loading indicator
-
-        if (topRatedMovies == null || forceRefresh) {
-            Subscription getTopRatedMoviesSubscription = movieService.getTopRatedMovies()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            movieResponse -> {
-                                Log.d(TAG, "Top rated movies fetched successfully");
-                                topRatedMovies = movieResponse.getResults();
-                                view.showMovies(topRatedMovies);
-                            },
-                            throwable -> {
-                                Log.e(TAG, "Failed to fetch top rated movies " + throwable);
-                                // TODO: view.showError
-                            });
-
-            subscriptions.add(getTopRatedMoviesSubscription);
-        } else {
-            view.showMovies(topRatedMovies);
-        }
+        subscriptions.add(movieRepository.getTopRatedMovies().
+                observeOn(AndroidSchedulers.mainThread())
+                .subscribe(movies -> {
+                    Log.d(TAG, "Top rated movies fetched successfully.");
+                    view.showMovies(movies);
+                }, throwable -> {
+                    Log.e(TAG, "Failed to fetch popular movies" + throwable);
+                    // TODO: view.showErro
+                }));
     }
 }

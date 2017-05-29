@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.base;
+package jurkin.popularmovies.data.model;
+
+import java.util.List;
+
+import jurkin.popularmovies.data.model.Video;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by ajurkin on 5/25/17.
  */
 
-public interface BasePresenter {
+public class MovieVideosResponse {
 
-    void subscribe();
+    private String id;
+    private List<Video> videos;
 
-    void unsubscribe();
+    public String getId() {
+        return id;
+    }
 
-    void unsubscribeDataSubscriptions();
+    public List<Video> getVideos() {
+        return videos;
+    }
 }
