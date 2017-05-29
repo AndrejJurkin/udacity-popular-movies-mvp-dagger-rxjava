@@ -31,6 +31,7 @@ import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasDispatchingActivityInjector;
+import dagger.android.HasDispatchingFragmentInjector;
 import dagger.android.support.HasDispatchingSupportFragmentInjector;
 import jurkin.popularmovies.injection.component.AppComponent;
 import jurkin.popularmovies.injection.component.DaggerAppComponent;

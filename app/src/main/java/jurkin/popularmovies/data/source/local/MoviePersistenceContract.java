@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.repository.local;
+package jurkin.popularmovies.data.source.local;
 
 import android.provider.BaseColumns;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
 
 /**
  * Created by ajurkin on 5/27/17.

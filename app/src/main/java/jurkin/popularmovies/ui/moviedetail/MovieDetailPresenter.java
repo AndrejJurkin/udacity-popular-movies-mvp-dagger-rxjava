@@ -25,12 +25,12 @@ import javax.inject.Inject;
 
 import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.repository.MovieRepository;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by ajurkin on 5/21/17.
+ *
+ * TODO: Replace MovieService with data source layer
  */
 
 public class MovieDetailPresenter implements MovieDetailContract.Presenter {
@@ -38,24 +38,17 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     private Movie movie;
     private MovieDetailContract.View view;
-    private MovieRepository movieRepository;
-    private CompositeSubscription subscriptions;
+    private MovieService movieService;
 
     @Inject
-    MovieDetailPresenter(MovieDetailContract.View view, Movie movie, MovieRepository movieRepository) {
+    MovieDetailPresenter(MovieDetailContract.View view, Movie movie, MovieService movieService) {
         this.view = view;
         this.movie = movie;
-        this.movieRepository = movieRepository;
-        this.subscriptions = new CompositeSubscription();
+        this.movieService = movieService;
     }
 
     @Override
     public void unsubscribe() {
-        this.subscriptions.unsubscribe();
-    }
-
-    @Override
-    public void unsubscribeDataSubscriptions() {
 
     }
 
@@ -79,7 +72,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     private void loadMovieDetails() {
-        this.subscriptions.add(movieRepository.getMovieDetails(movie.getId())
+        this.movieService.getMovieDetails(movie.getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         movieDetails -> {
@@ -94,21 +87,32 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
                             this.view.setMovieDetailSummary(summary);
                         },
-                        throwable -> Log.e(TAG, "Failed to fetch movie details: " + throwable)));
+                        throwable -> Log.e(TAG, "Failed to fetch movie details: " + throwable));
     }
 
     private void loadMovieVideos() {
-        this.subscriptions.add(movieRepository.getVideos(movie.getId())
+        this.movieService.getVideos(movie.getId())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(videos -> {
-                    Log.d(TAG, "Videos fetched successfully.");
+                .subscribe(
+                        movieReviewsResponse -> {
 
-                }, throwable -> {
-                    Log.e(TAG, "Failed to fetch videos: " + throwable);
-                }));
+                        },
+                        throwable -> {
+
+                        }
+                );
     }
 
     private void loadMovieReviews() {
+        this.movieService.getMovieReviews(movie.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movieReviewsResponse -> {
 
+                        },
+                        throwable -> {
+
+                        }
+                );
     }
 }

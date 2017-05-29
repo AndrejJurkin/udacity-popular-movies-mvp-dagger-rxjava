@@ -31,7 +31,6 @@ import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.base.BasePresenter;
 import jurkin.popularmovies.base.BaseView;
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.repository.MovieRepository;
 
 /**
  * Created by ajurkin on 5/13/17.
@@ -89,8 +88,8 @@ public interface DiscoveryContract {
         }
 
         @Provides
-        Presenter providesPresenter(View view, MovieRepository movieRepository) {
-            return new DiscoveryPresenter(view, movieRepository);
+        Presenter providesPresenter(View view, MovieService movieService) {
+            return new DiscoveryPresenter(view, movieService);
         }
     }
 

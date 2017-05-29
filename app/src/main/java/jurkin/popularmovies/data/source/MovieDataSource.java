@@ -14,42 +14,28 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model;
-
-import com.google.gson.annotations.SerializedName;
+package jurkin.popularmovies.data.source;
 
 import java.util.List;
 
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieReview;
+import jurkin.popularmovies.data.model.Video;
+import rx.Observable;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by ajurkin on 5/28/17.
  */
 
-public class MovieResponse {
+public interface MovieDataSource {
 
-    private int page;
-    private List<Movie> results;
+    Observable<List<Movie>> getPopularMovies();
 
-    @SerializedName("total_results")
-    private int totalResults;
+    Observable<List<Movie>> getTopRatedMovies();
 
-    @SerializedName("total_pages")
-    private int totalPages;
+    Observable<Movie> getMovie(String movieId);
 
-    public int getPage() {
-        return page;
-    }
+    Observable<Video> getVideos(String movieId);
 
-    public List<Movie> getResults() {
-        return results;
-    }
-
-    public int getTotalResults() {
-        return totalResults;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
+    Observable<MovieReview> getReviews(String movieId);
 }

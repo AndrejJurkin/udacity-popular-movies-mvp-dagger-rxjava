@@ -14,32 +14,11 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model;
+package jurkin.popularmovies.data.source.remote;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by ajurkin on 5/28/17.
  */
 
-public class MovieReview {
-
-    private String id;
-    private String author;
-    private String content;
-    private String url;
-
-    public String getId() {
-        return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getUrl() {
-        return url;
-    }
+public class MovieRemoteDataSource {
 }

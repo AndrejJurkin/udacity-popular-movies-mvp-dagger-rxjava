@@ -17,9 +17,9 @@
 package jurkin.popularmovies.api;
 
 import jurkin.popularmovies.data.model.MovieDetails;
-import jurkin.popularmovies.data.model.MovieResponse;
-import jurkin.popularmovies.data.model.MovieReviewsResponse;
-import jurkin.popularmovies.data.model.MovieVideosResponse;
+import jurkin.popularmovies.data.model.response.MovieResponse;
+import jurkin.popularmovies.data.model.response.MovieReviewsResponse;
+import jurkin.popularmovies.data.model.response.MovieVideosResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
