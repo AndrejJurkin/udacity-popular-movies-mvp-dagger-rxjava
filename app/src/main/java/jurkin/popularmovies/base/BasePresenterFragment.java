@@ -16,7 +16,10 @@
 
 package jurkin.popularmovies.base;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 /**
  * Created by ajurkin on 5/20/17.
@@ -27,8 +30,8 @@ public abstract class BasePresenterFragment<T extends BasePresenter> extends Bas
     protected T presenter;
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         if (presenter != null) {
             presenter.subscribe();
@@ -36,8 +39,8 @@ public abstract class BasePresenterFragment<T extends BasePresenter> extends Bas
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
 
         if (presenter != null) {
             presenter.unsubscribe();

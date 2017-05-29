@@ -121,30 +121,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/movie_rating" />
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/movie_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
-            android:orientation="vertical">
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="Movie overview text" />
 
-            <TextView
-                android:id="@+id/movie_title_small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                tools:text="Movie title small" />
-
-            <TextView
-                android:id="@+id/movie_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:text="Movie overview text" />
-        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/videos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></LinearLayout>
 
     </LinearLayout>
 </ScrollView>

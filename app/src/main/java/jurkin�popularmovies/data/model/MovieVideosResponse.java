@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model.response;
+package jurkin.popularmovies.data.model;
 
 import java.util.List;
 

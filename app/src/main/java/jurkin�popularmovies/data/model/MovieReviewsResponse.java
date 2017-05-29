@@ -16,30 +16,43 @@
 
 package jurkin.popularmovies.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by ajurkin on 5/25/17.
  */
 
-public class MovieReview {
+public class MovieReviewsResponse {
 
     private String id;
-    private String author;
-    private String content;
-    private String url;
+    private int page;
+    private List<MovieReview> reviews;
+
+    @SerializedName("total_pages")
+    private int totalPages;
+
+    @SerializedName("total_results")
+    private int totalResults;
 
     public String getId() {
         return id;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getPage() {
+        return page;
     }
 
-    public String getContent() {
-        return content;
+    public List<MovieReview> getReviews() {
+        return reviews;
     }
 
-    public String getUrl() {
-        return url;
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public int getTotalResults() {
+        return totalResults;
     }
 }

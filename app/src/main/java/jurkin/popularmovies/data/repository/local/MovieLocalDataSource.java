@@ -14,44 +14,29 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.source.local;
+package jurkin.popularmovies.data.repository.local;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieResponse;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
-import jurkin.popularmovies.data.source.MovieDataSource;
+import jurkin.popularmovies.data.repository.MovieRepository;
 import rx.Observable;
 
 /**
  * Created by ajurkin on 5/28/17.
  */
 
-public class MovieLocalDataSource implements MovieDataSource {
+@Singleton
+public class MovieLocalDataSource  {
 
-    @Override
-    public Observable<List<Movie>> getPopularMovies() {
-        return null;
-    }
-
-    @Override
-    public Observable<List<Movie>> getTopRatedMovies() {
-        return null;
-    }
-
-    @Override
-    public Observable<Movie> getMovie(String movieId) {
-        return null;
-    }
-
-    @Override
-    public Observable<Video> getVideos(String movieId) {
-        return null;
-    }
-
-    @Override
-    public Observable<MovieReview> getReviews(String movieId) {
-        return null;
+    @Inject
+    public MovieLocalDataSource() {
+        
     }
 }

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.source.local;
+package jurkin.popularmovies.data.repository.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import jurkin.popularmovies.data.source.local.MoviePersistenceContract.MovieEntry;
-import jurkin.popularmovies.data.source.local.MoviePersistenceContract.ReviewEntry;
-import jurkin.popularmovies.data.source.local.MoviePersistenceContract.VideoEntry;
+import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.MovieEntry;
+import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.ReviewEntry;
+import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.VideoEntry;
 
 /**
  * Created by ajurkin on 5/27/17.
@@ -68,8 +68,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + Tables.REVIEWS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + ReviewEntry.REVIEW_ID + " TEXT NOT NULL,"
                 + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
-                + ReviewEntry.REVIEW_ID + " INTEGER NOT NULL,"
                 + ReviewEntry.REVIEW_AUTHOR + " TEXT,"
                 + ReviewEntry.REVIEW_CONTENT + "TEXT,"
                 + ReviewEntry.REVIEW_URL + " TEXT,"
@@ -79,7 +79,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + Tables.VIDEOS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
                 + VideoEntry.VIDEO_ID + " INTEGER NOT NULL,"
-                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
+                + MovieEntry.MOVIE_ID + " TEXT NOT NULL " + References.MOVIE_ID + ","
                 + VideoEntry.VIDEO_KEY + " TEXT,"
                 + VideoEntry.VIDEO_NAME + " TEXT,"
                 + VideoEntry.VIDEO_SITE + " TEXT,"

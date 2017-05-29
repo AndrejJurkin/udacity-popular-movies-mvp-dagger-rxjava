@@ -55,9 +55,6 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @BindView(R.id.movie_title)
     TextView movieTitle;
 
-    @BindView(R.id.movie_title_small)
-    TextView movieTitleSmall;
-
     @BindView(R.id.movie_description)
     TextView movieDescription;
 
@@ -111,7 +108,6 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @Override
     public void setTitle(String title) {
         this.movieTitle.setText(title);
-        this.movieTitleSmall.setText(title);
     }
 
     @Override

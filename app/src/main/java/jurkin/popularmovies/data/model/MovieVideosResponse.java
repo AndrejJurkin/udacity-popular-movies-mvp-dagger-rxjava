@@ -14,45 +14,26 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model.response;
-
-import com.google.gson.annotations.SerializedName;
+package jurkin.popularmovies.data.model;
 
 import java.util.List;
+
+import jurkin.popularmovies.data.model.Video;
 
 /**
  * Created by ajurkin on 5/25/17.
  */
 
-public class MovieReviewsResponse {
+public class MovieVideosResponse {
 
     private String id;
-    private int page;
-    private List<MovieReviewsResponse> results;
-
-    @SerializedName("total_pages")
-    private int totalPages;
-
-    @SerializedName("total_results")
-    private int totalResults;
+    private List<Video> videos;
 
     public String getId() {
         return id;
     }
 
-    public int getPage() {
-        return page;
-    }
-
-    public List<MovieReviewsResponse> getResults() {
-        return results;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public int getTotalResults() {
-        return totalResults;
+    public List<Video> getVideos() {
+        return videos;
     }
 }
