@@ -23,7 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
- * Created by ajurkin on 5/27/17.
+ * Created by Andrej Jurkin on 5/27/17.
  */
 
 public final class MoviePersistenceContract {

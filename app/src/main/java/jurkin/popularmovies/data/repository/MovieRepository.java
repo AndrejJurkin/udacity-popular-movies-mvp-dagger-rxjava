@@ -32,7 +32,7 @@ import jurkin.popularmovies.data.repository.remote.MovieRemoteDataSource;
 import rx.Observable;
 
 /**
- * Created by ajurkin on 5/28/17.
+ * Created by Andrej Jurkin on 5/28/17.
  */
 
 @Singleton

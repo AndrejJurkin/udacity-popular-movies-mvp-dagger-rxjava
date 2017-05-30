@@ -26,7 +26,7 @@ import jurkin.popularmovies.injection.module.ApiModule;
 import jurkin.popularmovies.injection.module.AppModule;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 
 @Singleton

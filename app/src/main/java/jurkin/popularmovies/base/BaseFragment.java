@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 
 public abstract class BaseFragment extends Fragment {

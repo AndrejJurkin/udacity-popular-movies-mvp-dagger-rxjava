@@ -17,7 +17,7 @@
 package jurkin.popularmovies.base;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by Andrej Jurkin on 5/12/17.
  */
 
 public interface BasePresenter {

@@ -26,7 +26,7 @@ import java.util.Date;
 import jurkin.popularmovies.App;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by Andrej Jurkin on 5/12/17.
  */
 
 public class Movie implements Parcelable {

@@ -30,7 +30,7 @@ import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
 
 /**
- * Created by ajurkin on 5/18/17.
+ * Created by Andrej Jurkin on 5/18/17.
  */
 
 public interface MovieDetailContract {

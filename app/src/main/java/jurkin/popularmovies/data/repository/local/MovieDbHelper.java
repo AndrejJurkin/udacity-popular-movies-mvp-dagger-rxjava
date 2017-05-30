@@ -26,7 +26,7 @@ import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.Revie
 import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.VideoEntry;
 
 /**
- * Created by ajurkin on 5/27/17.
+ * Created by Andrej Jurkin on 5/27/17.
  */
 
 public class MovieDbHelper extends SQLiteOpenHelper {

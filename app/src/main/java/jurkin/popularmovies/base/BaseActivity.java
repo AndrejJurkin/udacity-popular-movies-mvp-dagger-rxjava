@@ -28,7 +28,7 @@ import dagger.android.support.AndroidSupportInjection;
 import jurkin.popularmovies.App;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by Andrej Jurkin on 5/12/17.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {

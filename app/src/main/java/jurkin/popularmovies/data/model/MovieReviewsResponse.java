@@ -21,7 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by Andrej Jurkin on 5/25/17.
  */
 
 public class MovieReviewsResponse {

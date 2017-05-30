@@ -22,7 +22,7 @@ import android.view.View;
 import butterknife.ButterKnife;
 
 /**
- * Created by ajurkin on 5/30/17.
+ * Created by Andrej Jurkin on 5/30/17.
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {

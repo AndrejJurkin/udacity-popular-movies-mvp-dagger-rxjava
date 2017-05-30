@@ -33,7 +33,7 @@ import jurkin.popularmovies.ui.moviedetail.MovieDetailFragment;
 
 
 /**
- * Created by ajurkin on 5/14/17.
+ * Created by Andrej Jurkin on 5/14/17.
  */
 
 @SuppressWarnings("unused")

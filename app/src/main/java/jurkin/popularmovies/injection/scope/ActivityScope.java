@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

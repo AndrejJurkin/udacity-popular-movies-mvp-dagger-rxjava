@@ -21,7 +21,7 @@ import java.util.List;
 import jurkin.popularmovies.data.model.Video;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by Andrej Jurkin on 5/25/17.
  */
 
 public class MovieVideosResponse {

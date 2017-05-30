@@ -43,7 +43,7 @@ import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.Video;
 
 /**
- * Created by ajurkin on 5/14/17.
+ * Created by Andrej Jurkin on 5/14/17.
  */
 
 public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContract.Presenter>

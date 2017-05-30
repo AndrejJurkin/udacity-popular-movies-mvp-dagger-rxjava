@@ -23,7 +23,7 @@ import java.util.List;
 import jurkin.popularmovies.data.model.Movie;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by Andrej Jurkin on 5/12/17.
  */
 
 public class MovieResponse {

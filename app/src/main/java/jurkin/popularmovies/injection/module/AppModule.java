@@ -23,7 +23,7 @@ import dagger.Provides;
 import jurkin.popularmovies.App;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 
 @Module

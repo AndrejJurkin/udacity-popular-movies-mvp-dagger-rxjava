@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 /**
- * Created by ajurkin on 5/20/17.
+ * Created by Andrej Jurkin on 5/20/17.
  */
 
 public abstract class BasePresenterFragment<T extends BasePresenter> extends BaseFragment implements BaseView<T> {

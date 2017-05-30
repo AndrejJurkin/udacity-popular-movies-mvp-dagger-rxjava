@@ -24,7 +24,7 @@ import jurkin.popularmovies.base.BaseActivity;
 import jurkin.popularmovies.data.model.Movie;
 
 /**
- * Created by ajurkin on 5/14/17.
+ * Created by Andrej Jurkin on 5/14/17.
  */
 
 public class MovieDetailActivity extends BaseActivity {

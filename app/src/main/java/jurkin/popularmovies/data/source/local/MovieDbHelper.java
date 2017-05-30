@@ -26,7 +26,7 @@ import jurkin.popularmovies.data.source.local.MoviePersistenceContract.ReviewEnt
 import jurkin.popularmovies.data.source.local.MoviePersistenceContract.VideoEntry;
 
 /**
- * Created by ajurkin on 5/27/17.
+ * Created by Andrej Jurkin on 5/27/17.
  */
 
 public class MovieDbHelper extends SQLiteOpenHelper {

@@ -41,7 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 
 @Module

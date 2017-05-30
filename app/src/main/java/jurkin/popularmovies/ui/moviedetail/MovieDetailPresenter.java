@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by ajurkin on 5/21/17.
+ * Created by Andrej Jurkin on 5/21/17.
  */
 
 public class MovieDetailPresenter implements MovieDetailContract.Presenter {

@@ -27,7 +27,7 @@ import jurkin.popularmovies.data.model.Video;
 import rx.Observable;
 
 /**
- * Created by ajurkin on 5/28/17.
+ * Created by Andrej Jurkin on 5/28/17.
  */
 
 public interface MovieDataSource {

@@ -25,7 +25,7 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 /**
- * Created by ajurkin on 5/12/17.
+ * Created by Andrej Jurkin on 5/12/17.
  */
 
 public interface MovieService {

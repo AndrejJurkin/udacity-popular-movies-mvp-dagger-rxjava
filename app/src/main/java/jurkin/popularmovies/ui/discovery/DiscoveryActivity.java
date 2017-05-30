@@ -25,7 +25,7 @@ import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseActivity;
 
 /**
- * Created by ajurkin on 5/13/17.
+ * Created by Andrej Jurkin on 5/13/17.
  */
 public class DiscoveryActivity extends BaseActivity {
 

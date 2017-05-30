@@ -35,7 +35,7 @@ import jurkin.popularmovies.base.BaseViewHolder;
 import jurkin.popularmovies.data.model.Video;
 
 /**
- * Created by ajurkin on 5/30/17.
+ * Created by Andrej Jurkin on 5/30/17.
  */
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
