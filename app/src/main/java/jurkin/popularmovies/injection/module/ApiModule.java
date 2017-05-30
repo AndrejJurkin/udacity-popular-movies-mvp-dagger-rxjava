@@ -26,6 +26,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import jurkin.popularmovies.App;
+import jurkin.popularmovies.BuildConfig;
 import jurkin.popularmovies.api.MovieService;
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
@@ -89,8 +90,12 @@ public class ApiModule {
     @Provides
     @Singleton
     HttpLoggingInterceptor providesHttpLoggingInterceptor() {
-        final HttpLoggingInterceptor httpLoggingInterceptor =new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
         return httpLoggingInterceptor;
     }
 
