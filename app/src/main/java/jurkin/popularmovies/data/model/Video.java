@@ -22,6 +22,8 @@ package jurkin.popularmovies.data.model;
 
 public class Video {
 
+    private static final String YOUTUBE_THUMB_URL = "https://img.youtube.com/vi/%s/0.jpg";
+
     private String id;
     private String key;
     private String name;
@@ -51,5 +53,9 @@ public class Video {
 
     public String getType() {
         return type;
+    }
+
+    public String getThumbUrl() {
+        return String.format(YOUTUBE_THUMB_URL, key);
     }
 }

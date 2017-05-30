@@ -63,6 +63,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @SuppressLint("DefaultLocale")
     public void subscribe() {
         this.loadMovieDetails();
+        this.loadMovieVideos();
 
         this.view.setTitle(movie.getTitle());
         this.view.setDescription(movie.getOverview());
@@ -70,7 +71,6 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         this.view.setPosterImage(movie.getFullPosterPath());
         this.view.setUserRating(String.format("%.1f (%d)",
                 movie.getVoteAverage(), movie.getVoteCount()));
-
     }
 
     @Override
@@ -102,7 +102,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videos -> {
                     Log.d(TAG, "Videos fetched successfully.");
-
+                    this.view.showVideos(videos);
                 }, throwable -> {
                     Log.e(TAG, "Failed to fetch videos: " + throwable);
                 }));

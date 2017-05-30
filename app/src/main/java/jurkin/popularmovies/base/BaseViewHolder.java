@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.model;
+package jurkin.popularmovies.base;
 
-import java.util.List;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-import jurkin.popularmovies.data.model.Video;
+import butterknife.ButterKnife;
 
 /**
- * Created by ajurkin on 5/25/17.
+ * Created by ajurkin on 5/30/17.
  */
 
-public class MovieVideosResponse {
+public class BaseViewHolder extends RecyclerView.ViewHolder {
 
-    private String id;
-    private List<Video> results;
-
-    public String getId() {
-        return id;
-    }
-
-    public List<Video> getVideos() {
-        return results;
+    public BaseViewHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 }

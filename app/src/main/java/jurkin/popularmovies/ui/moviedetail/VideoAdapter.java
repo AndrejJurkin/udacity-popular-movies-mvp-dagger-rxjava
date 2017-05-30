@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.ui.discovery;
+package jurkin.popularmovies.ui.moviedetail;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,52 +29,38 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseViewHolder;
-import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.Video;
 
 /**
- * Created by ajurkin on 5/16/17.
+ * Created by ajurkin on 5/30/17.
  */
 
-public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.ViewHolder> {
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
     @NonNull
-    private List<Movie> data;
+    private List<Video> data;
 
-    private OnMovieClickListener onMovieClickListener;
-
-    @Inject
-    DiscoveryAdapter() {
+    VideoAdapter() {
         this.data = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.gi_movie, parent, false);
-
-        return new ViewHolder(itemView);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.gi_video, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Movie movie = data.get(position);
-        holder.itemView.setTag(position);
+        Video video = data.get(position);
 
-        Glide.with(holder.posterImage.getContext())
-                .load(movie.getFullPosterPath())
-                .into(holder.posterImage);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (onMovieClickListener != null) {
-                onMovieClickListener.onMovieClicked(movie);
-            }
-        });
+        Glide.with(holder.itemView.getContext())
+                .load(video.getThumbUrl())
+                .into(holder.thumbnailImageView);
     }
 
     @Override
@@ -81,28 +68,20 @@ public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.View
         return data.size();
     }
 
-    public void setData(List<Movie> movies) {
-        if (movies == null) {
-            movies = new ArrayList<>();
+    public void setData(@Nullable List<Video> data) {
+        if (data == null) {
+            this.data = new ArrayList<>();
+        } else {
+            this.data = data;
         }
 
-        this.data = movies;
         notifyDataSetChanged();
-    }
-
-    public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
-        this.onMovieClickListener = onMovieClickListener;
-    }
-
-    interface OnMovieClickListener {
-
-        void onMovieClicked(Movie movie);
     }
 
     static class ViewHolder extends BaseViewHolder {
 
-        @BindView(R.id.poster_image)
-        ImageView posterImage;
+        @BindView(R.id.thumbnail_image_view)
+        ImageView thumbnailImageView;
 
         ViewHolder(View itemView) {
             super(itemView);

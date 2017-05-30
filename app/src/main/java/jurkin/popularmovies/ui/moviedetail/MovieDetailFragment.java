@@ -20,6 +20,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +40,7 @@ import dagger.android.support.AndroidSupportInjection;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BasePresenterFragment;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.Video;
 
 /**
  * Created by ajurkin on 5/14/17.
@@ -67,6 +72,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @BindView(R.id.add_to_favorites_button)
     AppCompatButton addToFavoritesButton;
 
+    @BindView(R.id.videos_recycler_view)
+    RecyclerView videosRecyclerView;
+
+    private VideoAdapter videoAdapter;
+
     public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
 
@@ -81,6 +91,18 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        videoAdapter = new VideoAdapter();
+        videosRecyclerView.setAdapter(videoAdapter);
+        videosRecyclerView.setLayoutManager(layoutManager);
     }
 
     @Nullable
@@ -133,6 +155,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @Override
     public void setMovieDetailSummary(String summary) {
         this.movieDetailSummary.setText(summary);
+    }
+
+    @Override
+    public void showVideos(List<Video> videos) {
+        this.videoAdapter.setData(videos);
     }
 
     @OnClick

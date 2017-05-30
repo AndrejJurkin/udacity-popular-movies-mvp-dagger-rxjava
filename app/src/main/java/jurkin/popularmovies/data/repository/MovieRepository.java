@@ -48,7 +48,6 @@ public final class MovieRepository implements MovieDataSource {
         this.localDataSource = localDataSource;
     }
 
-
     @Override
     @NonNull
     public Observable<List<Movie>> getPopularMovies() {

@@ -16,6 +16,8 @@
 
 package jurkin.popularmovies.ui.moviedetail;
 
+import java.util.List;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.Subcomponent;
@@ -24,6 +26,7 @@ import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.base.BasePresenter;
 import jurkin.popularmovies.base.BaseView;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
 
 /**
@@ -49,6 +52,8 @@ public interface MovieDetailContract {
         void setUserRating(String userRating);
 
         void setMovieDetailSummary(String summary);
+
+        void showVideos(List<Video> videos);
     }
 
     interface Presenter extends BasePresenter {
