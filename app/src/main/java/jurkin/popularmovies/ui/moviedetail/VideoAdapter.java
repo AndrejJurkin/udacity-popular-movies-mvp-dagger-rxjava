@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -65,6 +66,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 .load(video.getThumbUrl())
                 .into(holder.thumbnailImageView);
 
+        holder.title.setText(video.getName());
+
         holder.itemView.setOnClickListener(v -> {
             if (onVideoClickListener != null) {
                 this.onVideoClickListener.onVideoClicked(video);
@@ -99,6 +102,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         @BindView(R.id.thumbnail_image_view)
         ImageView thumbnailImageView;
+
+        @BindView(R.id.video_title)
+        TextView title;
 
         ViewHolder(View itemView) {
             super(itemView);
