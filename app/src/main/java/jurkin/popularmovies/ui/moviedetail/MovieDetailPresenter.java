@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -76,6 +77,12 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public void onAddToFavoritesButtonClick() {
 
+    }
+
+    @Override
+    public void onVideoClicked(Video video) {
+        String videoUrl = String.format("https://www.youtube.com/watch?v=%s", video.getKey());
+        view.playVideo(videoUrl);
     }
 
     private void loadMovieDetails() {

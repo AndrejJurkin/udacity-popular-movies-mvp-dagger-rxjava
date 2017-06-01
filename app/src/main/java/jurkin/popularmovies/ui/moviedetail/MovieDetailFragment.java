@@ -17,6 +17,8 @@
 package jurkin.popularmovies.ui.moviedetail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
@@ -47,7 +49,7 @@ import jurkin.popularmovies.data.model.Video;
  */
 
 public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContract.Presenter>
-        implements MovieDetailContract.View {
+        implements MovieDetailContract.View, VideoAdapter.OnVideoClickListener {
 
     public static final String ARG_MOVIE = "arg_movie";
 
@@ -88,9 +90,23 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        videoAdapter = new VideoAdapter();
+        videoAdapter.setOnVideoClickListener(this);
+    }
+
+    @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState, R.layout.fragment_movie_detail);
     }
 
     @Override
@@ -100,15 +116,8 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
-        videoAdapter = new VideoAdapter();
         videosRecyclerView.setAdapter(videoAdapter);
         videosRecyclerView.setLayoutManager(layoutManager);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState, R.layout.fragment_movie_detail);
     }
 
     @Inject
@@ -162,9 +171,22 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
         this.videoAdapter.setData(videos);
     }
 
+    @Override
+    public void playVideo(String videoUrl) {
+        Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+        startActivity(playVideoIntent);
+    }
+
     @OnClick
     @SuppressWarnings("unused")
     public void onAddToFavoritesButtonClick() {
         this.presenter.onAddToFavoritesButtonClick();
     }
+
+    @Override
+    public void onVideoClicked(Video video) {
+        presenter.onVideoClicked(video);
+    }
+
+
 }

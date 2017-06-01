@@ -54,11 +54,15 @@ public interface MovieDetailContract {
         void setMovieDetailSummary(String summary);
 
         void showVideos(List<Video> videos);
+
+        void playVideo(String videoUrl);
     }
 
     interface Presenter extends BasePresenter {
 
         void onAddToFavoritesButtonClick();
+
+        void onVideoClicked(Video video);
     }
 
     @Module

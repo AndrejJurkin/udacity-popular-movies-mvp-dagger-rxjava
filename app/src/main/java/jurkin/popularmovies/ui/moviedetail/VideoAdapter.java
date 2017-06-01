@@ -43,6 +43,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @NonNull
     private List<Video> data;
 
+    @Nullable
+    private OnVideoClickListener onVideoClickListener;
+
     VideoAdapter() {
         this.data = new ArrayList<>();
     }
@@ -61,6 +64,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         Glide.with(holder.itemView.getContext())
                 .load(video.getThumbUrl())
                 .into(holder.thumbnailImageView);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onVideoClickListener != null) {
+                this.onVideoClickListener.onVideoClicked(video);
+            }
+        });
     }
 
     @Override
@@ -76,6 +85,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         }
 
         notifyDataSetChanged();
+    }
+
+    public void setOnVideoClickListener(@Nullable OnVideoClickListener onVideoClickListener) {
+        this.onVideoClickListener = onVideoClickListener;
+    }
+
+    interface OnVideoClickListener {
+        void onVideoClicked(Video video);
     }
 
     static class ViewHolder extends BaseViewHolder {
