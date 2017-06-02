@@ -75,6 +75,6 @@ public final class MovieRepository implements MovieDataSource {
     @Override
     @NonNull
     public Observable<List<MovieReview>> getReviews(long movieId) {
-        return null;
+        return remoteDataSource.getReviews(movieId);
     }
 }

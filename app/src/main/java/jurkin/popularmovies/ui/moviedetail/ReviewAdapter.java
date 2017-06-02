@@ -16,16 +16,11 @@
 
 package jurkin.popularmovies.ui.moviedetail;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,46 +28,34 @@ import java.util.List;
 import butterknife.BindView;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseViewHolder;
-import jurkin.popularmovies.data.model.Video;
+import jurkin.popularmovies.data.model.MovieReview;
 
 /**
- * Created by Andrej Jurkin on 5/30/17.
+ * Created by Andrej Jurkin on 6/2/17.
  */
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
+class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
-    @NonNull
-    private List<Video> data;
+    private List<MovieReview> data;
 
-    @Nullable
-    private OnVideoClickListener onVideoClickListener;
-
-    VideoAdapter() {
+    ReviewAdapter() {
         this.data = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.li_video, parent, false);
+        View view = LayoutInflater.from(
+                parent.getContext()).inflate(R.layout.li_review, parent, false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Video video = data.get(position);
+        MovieReview review = data.get(position);
 
-        Glide.with(holder.itemView.getContext())
-                .load(video.getThumbUrl())
-                .into(holder.thumbnailImageView);
-
-        holder.title.setText(video.getName());
-
-        holder.itemView.setOnClickListener(v -> {
-            if (onVideoClickListener != null) {
-                this.onVideoClickListener.onVideoClicked(video);
-            }
-        });
+        holder.author.setText(review.getAuthor());
+        holder.review.setText(review.getContent());
     }
 
     @Override
@@ -80,34 +63,25 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         return data.size();
     }
 
-    public void setData(@Nullable List<Video> data) {
+    public void setData(List<MovieReview> data) {
         if (data == null) {
-            this.data = new ArrayList<>();
-        } else {
-            this.data = data;
+            data = new ArrayList<>();
         }
 
+        this.data = data;
         notifyDataSetChanged();
     }
 
-    public void setOnVideoClickListener(@Nullable OnVideoClickListener onVideoClickListener) {
-        this.onVideoClickListener = onVideoClickListener;
-    }
-
-    interface OnVideoClickListener {
-        void onVideoClicked(Video video);
-    }
-
     static class ViewHolder extends BaseViewHolder {
+        @BindView(R.id.author)
+        TextView author;
 
-        @BindView(R.id.thumbnail_image_view)
-        ImageView thumbnailImageView;
-
-        @BindView(R.id.video_title)
-        TextView title;
+        @BindView(R.id.review)
+        TextView review;
 
         ViewHolder(View itemView) {
             super(itemView);
         }
     }
+
 }

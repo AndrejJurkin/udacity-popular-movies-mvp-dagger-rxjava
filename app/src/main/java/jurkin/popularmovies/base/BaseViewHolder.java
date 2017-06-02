@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Andrej Jurkin on 5/30/17.
  */
 
-public class BaseViewHolder extends RecyclerView.ViewHolder {
+public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {
         super(itemView);

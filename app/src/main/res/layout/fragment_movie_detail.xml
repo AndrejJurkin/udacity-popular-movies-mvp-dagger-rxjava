@@ -156,5 +156,26 @@
             android:layout_height="wrap_content"
             tools:background="@color/colorAccent" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Reviews"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviews_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:background="@color/colorAccent" />
+
     </LinearLayout>
 </ScrollView>

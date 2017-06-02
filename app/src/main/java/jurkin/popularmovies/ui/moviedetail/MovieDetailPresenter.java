@@ -65,6 +65,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     public void subscribe() {
         this.loadMovieDetails();
         this.loadMovieVideos();
+        this.loadMovieReviews();
 
         this.view.setTitle(movie.getTitle());
         this.view.setDescription(movie.getOverview());
@@ -108,14 +109,24 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         this.subscriptions.add(movieRepository.getVideos(movie.getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videos -> {
-                    Log.d(TAG, "Videos fetched successfully.");
+                    Log.d(TAG, "Videos fetched successfully");
                     this.view.showVideos(videos);
                 }, throwable -> {
                     Log.e(TAG, "Failed to fetch videos: " + throwable);
+                    // TODO: show error
                 }));
     }
 
     private void loadMovieReviews() {
-
+        this.subscriptions.add(movieRepository.getReviews(movie.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(reviews -> {
+                    Log.d(TAG, "Reviews fetches successfully");
+                    this.view.showReviews(reviews);
+                }, throwable -> {
+                    Log.e(TAG, "Failed to fetch movie reviews" + throwable);
+                    // TODO: show error
+                })
+        );
     }
 }

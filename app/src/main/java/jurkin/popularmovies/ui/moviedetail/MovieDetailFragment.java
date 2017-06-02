@@ -42,6 +42,7 @@ import dagger.android.support.AndroidSupportInjection;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BasePresenterFragment;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 
 /**
@@ -77,7 +78,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @BindView(R.id.videos_recycler_view)
     RecyclerView videosRecyclerView;
 
+    @BindView(R.id.reviews_recycler_view)
+    RecyclerView reviewsRecyclerView;
+
     private VideoAdapter videoAdapter;
+    private ReviewAdapter reviewAdapter;
 
     public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
@@ -95,6 +100,8 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
 
         videoAdapter = new VideoAdapter();
         videoAdapter.setOnVideoClickListener(this);
+
+        reviewAdapter = new ReviewAdapter();
     }
 
     @Override
@@ -113,11 +120,17 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     public void onStart() {
         super.onStart();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
+        LinearLayoutManager videoListLayoutManager = new LinearLayoutManager(
                 getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
         videosRecyclerView.setAdapter(videoAdapter);
-        videosRecyclerView.setLayoutManager(layoutManager);
+        videosRecyclerView.setLayoutManager(videoListLayoutManager);
+
+        LinearLayoutManager reviewListLayoutManager = new LinearLayoutManager(
+                getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        reviewsRecyclerView.setAdapter(reviewAdapter);
+        reviewsRecyclerView.setLayoutManager(reviewListLayoutManager);
     }
 
     @Inject
@@ -175,6 +188,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     public void playVideo(String videoUrl) {
         Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
         startActivity(playVideoIntent);
+    }
+
+    @Override
+    public void showReviews(List<MovieReview> reviews) {
+        reviewAdapter.setData(reviews);
     }
 
     @OnClick

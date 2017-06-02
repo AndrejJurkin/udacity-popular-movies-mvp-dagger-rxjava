@@ -26,6 +26,7 @@ import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.base.BasePresenter;
 import jurkin.popularmovies.base.BaseView;
 import jurkin.popularmovies.data.model.Movie;
+import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
 
@@ -56,6 +57,8 @@ public interface MovieDetailContract {
         void showVideos(List<Video> videos);
 
         void playVideo(String videoUrl);
+
+        void showReviews(List<MovieReview> reviews);
     }
 
     interface Presenter extends BasePresenter {

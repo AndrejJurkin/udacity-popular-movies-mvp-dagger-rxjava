@@ -28,7 +28,7 @@ public class MovieReviewsResponse {
 
     private String id;
     private int page;
-    private List<MovieReview> reviews;
+    private List<MovieReview> results;
 
     @SerializedName("total_pages")
     private int totalPages;
@@ -45,7 +45,7 @@ public class MovieReviewsResponse {
     }
 
     public List<MovieReview> getReviews() {
-        return reviews;
+        return results;
     }
 
     public int getTotalPages() {
