@@ -21,6 +21,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import jurkin.popularmovies.App;
+import jurkin.popularmovies.data.repository.local.LocalDataSourceModule;
 import jurkin.popularmovies.injection.module.UiModule;
 import jurkin.popularmovies.injection.module.ApiModule;
 import jurkin.popularmovies.injection.module.AppModule;
@@ -35,7 +36,8 @@ import jurkin.popularmovies.injection.module.AppModule;
                 AppModule.class,
                 ApiModule.class,
                 UiModule.class,
-                AndroidInjectionModule.class
+                AndroidInjectionModule.class,
+                LocalDataSourceModule.class
         })
 public interface AppComponent {
 

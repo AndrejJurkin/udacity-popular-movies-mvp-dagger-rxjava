@@ -41,4 +41,10 @@ public interface MovieDataSource {
     Observable<List<Video>> getVideos(long movieId);
 
     Observable<List<MovieReview>> getReviews(long movieId);
+
+    Observable<List<Movie>> getWatchlist();
+
+    Observable<Void> addToWatchlist(long movieId);
+
+    Observable<Void> removeFromWatchlist(long movieId);
 }

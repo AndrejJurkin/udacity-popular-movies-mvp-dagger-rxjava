@@ -16,6 +16,7 @@
 
 package jurkin.popularmovies.data.repository;
 
+import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import jurkin.popularmovies.data.model.MovieDetails;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.local.MovieLocalDataSource;
+import jurkin.popularmovies.data.repository.local.MoviePersistenceContract;
 import jurkin.popularmovies.data.repository.remote.MovieRemoteDataSource;
 import rx.Observable;
 
@@ -76,5 +78,22 @@ public final class MovieRepository implements MovieDataSource {
     @NonNull
     public Observable<List<MovieReview>> getReviews(long movieId) {
         return remoteDataSource.getReviews(movieId);
+    }
+
+    @Override
+    @NonNull
+    public Observable<List<Movie>> getWatchlist() {
+        return Observable.error(new DataSourceNotSupportedException());
+    }
+
+    @Override
+    @NonNull
+    public Observable<Void> addToWatchlist(long movieId) {
+        return localDataSource.addToWatchlist(movieId);
+    }
+
+    @Override
+    public Observable<Void> removeFromWatchlist(long movieId) {
+        return localDataSource.removeFromWatchlist(movieId);
     }
 }

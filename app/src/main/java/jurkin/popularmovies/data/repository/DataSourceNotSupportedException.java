@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.injection.module;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-import jurkin.popularmovies.App;
+package jurkin.popularmovies.data.repository;
 
 /**
- * Created by Andrej Jurkin on 5/13/17.
+ * Created by Andrej Jurkin on 6/2/17.
  */
 
-@Module
-public final class AppModule {
+public class DataSourceNotSupportedException extends Exception {
 
-    private App app;
-
-    public AppModule(App app) {
-        this.app = app;
-    }
-
-    @Provides
-    @Singleton
-    App providesApp() {
-        return app;
+    public DataSourceNotSupportedException() {
+        super("Requested data source is not supported");
     }
 }

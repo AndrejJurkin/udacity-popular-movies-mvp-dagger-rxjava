@@ -17,6 +17,7 @@
 package jurkin.popularmovies.data.repository.local;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
@@ -33,6 +34,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "PopularMovies.db";
     private static int DB_VERSION = 1;
+
+    private static final int BOOLEAN_FALSE = 0;
+    private static final int BOOLEAN_TRUE = 1;
 
     interface Tables {
         String MOVIES = "movies";
@@ -51,7 +55,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
-                + BaseColumns._ID + "INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + BaseColumns._ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MovieEntry.MOVIE_ID + " INTEGER NOT NULL,"
                 + MovieEntry.MOVIE_TITLE + " TEXT,"
                 + MovieEntry.MOVIE_OVERVIEW + " TEXT,"
@@ -63,11 +67,12 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieEntry.MOVIE_VOTE_AVERAGE + " REAL,"
                 + MovieEntry.MOVIE_RUNTIME + " INTEGER,"
                 + MovieEntry.MOVIE_ORIGINAL_LANGUAGE + " TEXT,"
+                + MovieEntry.MOVIE_IN_WATCHLIST + " INTEGER,"
                 + "UNIQUE (" + MovieEntry.MOVIE_ID + ") ON CONFLICT REPLACE)"
         );
 
         db.execSQL("CREATE TABLE " + Tables.REVIEWS + " ("
-                + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + ReviewEntry.REVIEW_ID + " TEXT NOT NULL,"
                 + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
                 + ReviewEntry.REVIEW_AUTHOR + " TEXT,"
@@ -77,7 +82,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " + Tables.VIDEOS + " ("
-                + BaseColumns._ID + " INTEGER PRIMARY VIDEO_KEY AUTOINCREMENT,"
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + VideoEntry.VIDEO_ID + " INTEGER NOT NULL,"
                 + MovieEntry.MOVIE_ID + " TEXT NOT NULL " + References.MOVIE_ID + ","
                 + VideoEntry.VIDEO_KEY + " TEXT,"
@@ -91,6 +96,25 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.MOVIES);
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.REVIEWS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.VIDEOS);
+        onCreate(db);
+    }
 
+    public static String getString(Cursor cursor, String columnName) {
+        return cursor.getString(cursor.getColumnIndexOrThrow(columnName));
+    }
+
+    public static boolean getBoolean(Cursor cursor, String columnName) {
+        return getInt(cursor, columnName) == BOOLEAN_TRUE;
+    }
+
+    public static long getLong(Cursor cursor, String columnName) {
+        return cursor.getLong(cursor.getColumnIndexOrThrow(columnName));
+    }
+
+    public static int getInt(Cursor cursor, String columnName) {
+        return cursor.getInt(cursor.getColumnIndexOrThrow(columnName));
     }
 }

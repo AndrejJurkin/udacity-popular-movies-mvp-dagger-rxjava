@@ -45,7 +45,7 @@ import rx.schedulers.Schedulers;
  */
 
 @Module
-public class ApiModule {
+public final class ApiModule {
 
     private String baseUrl;
     private String apiKey;
