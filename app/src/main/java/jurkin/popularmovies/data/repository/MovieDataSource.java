@@ -16,12 +16,9 @@
 
 package jurkin.popularmovies.data.repository;
 
-import android.support.annotation.NonNull;
-
 import java.util.List;
 
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.model.MovieDetails;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import rx.Observable;
@@ -36,7 +33,7 @@ public interface MovieDataSource {
 
     Observable<List<Movie>> getTopRatedMovies();
 
-    Observable<MovieDetails> getMovieDetails(long movieId);
+    Observable<Movie> getMovie(long movieId);
 
     Observable<List<Video>> getVideos(long movieId);
 

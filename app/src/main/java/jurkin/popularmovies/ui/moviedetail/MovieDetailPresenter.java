@@ -23,7 +23,6 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
-import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
@@ -87,7 +86,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     private void loadMovieDetails() {
-        this.subscriptions.add(movieRepository.getMovieDetails(movie.getId())
+        this.subscriptions.add(movieRepository.getMovie(movie.getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         movieDetails -> {

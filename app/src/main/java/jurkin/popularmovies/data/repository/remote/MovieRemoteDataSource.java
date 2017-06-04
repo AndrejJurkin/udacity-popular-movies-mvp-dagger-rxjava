@@ -23,9 +23,9 @@ import javax.inject.Singleton;
 
 import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.model.MovieDetails;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
+import jurkin.popularmovies.data.repository.DataSourceNotSupportedException;
 import jurkin.popularmovies.data.repository.MovieDataSource;
 import rx.Observable;
 
@@ -56,8 +56,8 @@ public final class MovieRemoteDataSource implements MovieDataSource {
     }
 
     @Override
-    public Observable<MovieDetails> getMovieDetails(long movieId) {
-        return movieService.getMovieDetails(movieId);
+    public Observable<Movie> getMovie(long movieId) {
+        return movieService.getMovie(movieId);
     }
 
     @Override
@@ -70,5 +70,20 @@ public final class MovieRemoteDataSource implements MovieDataSource {
     public Observable<List<MovieReview>> getReviews(long movieId) {
         return movieService.getMovieReviews(movieId)
                 .flatMap(movieReviewsResponse -> Observable.just(movieReviewsResponse.getReviews()));
+    }
+
+    @Override
+    public Observable<List<Movie>> getWatchlist() {
+        return Observable.error(new DataSourceNotSupportedException());
+    }
+
+    @Override
+    public Observable<Void> addToWatchlist(long movieId) {
+        return Observable.error(new DataSourceNotSupportedException());
+    }
+
+    @Override
+    public Observable<Void> removeFromWatchlist(long movieId) {
+        return Observable.error(new DataSourceNotSupportedException());
     }
 }

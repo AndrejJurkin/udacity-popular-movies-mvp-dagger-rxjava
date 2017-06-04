@@ -32,12 +32,12 @@ import jurkin.popularmovies.App;
 public class Movie implements Parcelable {
 
     private long id;
-    private String title;
-    private String overview;
-    private float popularity;
 
-    @SerializedName("release_date")
-    private Date releaseDate;
+    private String title;
+
+    private String overview;
+
+    private float popularity;
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -50,6 +50,62 @@ public class Movie implements Parcelable {
 
     @SerializedName("vote_average")
     private float voteAverage;
+
+    @SerializedName("release_date")
+    private Date releaseDate;
+
+    @SerializedName("original_language")
+    private String originalLanguage;
+
+    private long revenue;
+
+    private int runtime;
+
+    protected Movie(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        overview = in.readString();
+        popularity = in.readFloat();
+        posterPath = in.readString();
+        backdropPath = in.readString();
+        voteCount = in.readInt();
+        voteAverage = in.readFloat();
+        originalLanguage = in.readString();
+        revenue = in.readLong();
+        runtime = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(overview);
+        dest.writeFloat(popularity);
+        dest.writeString(posterPath);
+        dest.writeString(backdropPath);
+        dest.writeInt(voteCount);
+        dest.writeFloat(voteAverage);
+        dest.writeString(originalLanguage);
+        dest.writeLong(revenue);
+        dest.writeInt(runtime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -123,50 +179,24 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public long getRevenue() {
+        return revenue;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
     public Movie() {
 
     }
-
-    protected Movie(Parcel in) {
-        id = in.readLong();
-        title = in.readString();
-        overview = in.readString();
-        popularity = in.readFloat();
-        posterPath = in.readString();
-        backdropPath = in.readString();
-        voteCount = in.readInt();
-        voteAverage = in.readFloat();
-        releaseDate = new Date(in.readLong());
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(title);
-        dest.writeString(overview);
-        dest.writeFloat(popularity);
-        dest.writeString(posterPath);
-        dest.writeString(backdropPath);
-        dest.writeInt(voteCount);
-        dest.writeFloat(voteAverage);
-        dest.writeLong(releaseDate.getTime());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 
 }

@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.model.MovieDetails;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.local.MovieLocalDataSource;
@@ -62,8 +61,8 @@ public final class MovieRepository implements MovieDataSource {
 
     @Override
     @NonNull
-    public Observable<MovieDetails> getMovieDetails(long movieId) {
-        return remoteDataSource.getMovieDetails(movieId);
+    public Observable<Movie> getMovie(long movieId) {
+        return remoteDataSource.getMovie(movieId);
     }
 
     @Override

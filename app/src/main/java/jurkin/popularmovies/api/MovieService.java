@@ -16,7 +16,7 @@
 
 package jurkin.popularmovies.api;
 
-import jurkin.popularmovies.data.model.MovieDetails;
+import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.MovieResponse;
 import jurkin.popularmovies.data.model.MovieReviewsResponse;
 import jurkin.popularmovies.data.model.MovieVideosResponse;
@@ -43,6 +43,6 @@ public interface MovieService {
     Observable<MovieReviewsResponse> getMovieReviews(@Path("id") long id);
 
     @GET("movie/{id}")
-    Observable<MovieDetails> getMovieDetails(@Path("id") long id);
+    Observable<Movie> getMovie(@Path("id") long id);
 
 }
