@@ -53,6 +53,8 @@ public interface DiscoveryContract {
         void onPopularMoviesClicked();
 
         void onTopRatedMoviesClicked();
+
+        void onWatchlistClick();
     }
 
     @Module
@@ -71,11 +73,6 @@ public interface DiscoveryContract {
 
         FragmentModule(DiscoveryFragment fragment) {
             this.fragment = fragment;
-        }
-
-        @Provides
-        Context providesContext() {
-            return fragment.getContext();
         }
 
         @Provides

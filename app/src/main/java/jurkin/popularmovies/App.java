@@ -46,6 +46,8 @@ public class App extends Application implements HasDispatchingActivityInjector, 
     public static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
     public static final String BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w1280";
 
+    private static App instance;
+
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
 
@@ -54,9 +56,14 @@ public class App extends Application implements HasDispatchingActivityInjector, 
 
     private AppComponent appComponent;
 
+    public static App get() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

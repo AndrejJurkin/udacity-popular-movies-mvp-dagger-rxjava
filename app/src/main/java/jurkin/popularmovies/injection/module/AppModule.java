@@ -16,6 +16,8 @@
 
 package jurkin.popularmovies.injection.module;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -39,5 +41,11 @@ public final class AppModule {
     @Singleton
     App providesApp() {
         return app;
+    }
+
+    @Provides
+    @Singleton
+    Context providesContext() {
+        return app.getApplicationContext();
     }
 }

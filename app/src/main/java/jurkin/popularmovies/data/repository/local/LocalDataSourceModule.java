@@ -18,6 +18,7 @@ package jurkin.popularmovies.data.repository.local;
 
 import android.app.Application;
 import android.content.ContentResolver;
+import android.content.Context;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -51,7 +52,7 @@ public final class LocalDataSourceModule {
 
     @Provides
     @Singleton
-    ContentResolver providesContentResolver(Application application) {
-        return application.getContentResolver();
+    ContentResolver providesContentResolver(Context context) {
+        return context.getContentResolver();
     }
 }

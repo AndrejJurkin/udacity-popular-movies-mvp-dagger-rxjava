@@ -22,6 +22,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import javax.inject.Inject;
+
 import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.MovieEntry;
 import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.ReviewEntry;
 import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.VideoEntry;
@@ -48,6 +50,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         String MOVIE_ID = "REFERENCES " + Tables.MOVIES + "(" + MovieEntry.MOVIE_ID + ")";
     }
 
+    @Inject
     public MovieDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
