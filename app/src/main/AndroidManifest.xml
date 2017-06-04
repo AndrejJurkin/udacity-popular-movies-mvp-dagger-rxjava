@@ -43,6 +43,12 @@
         <activity android:name=".ui.moviedetail.MovieDetailActivity"
             android:parentActivityName=".ui.discovery.DiscoveryActivity"
             android:theme="@style/AppTheme.ActionBar.Translucent" />
+
+        <provider
+            android:authorities="jurkin.popularmovies"
+            android:name=".data.repository.local.MovieContentProvider"
+            android:exported="false" />
+        e
     </application>
 
 </manifest>

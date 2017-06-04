@@ -22,6 +22,7 @@ import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import jurkin.popularmovies.App;
 import jurkin.popularmovies.data.repository.local.LocalDataSourceModule;
+import jurkin.popularmovies.data.repository.local.MovieContentProvider;
 import jurkin.popularmovies.injection.module.UiModule;
 import jurkin.popularmovies.injection.module.ApiModule;
 import jurkin.popularmovies.injection.module.AppModule;
@@ -42,4 +43,6 @@ import jurkin.popularmovies.injection.module.AppModule;
 public interface AppComponent {
 
     void inject(App app);
+
+    void inject(MovieContentProvider movieContentProvider);
 }

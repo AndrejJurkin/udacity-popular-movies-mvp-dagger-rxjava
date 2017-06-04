@@ -16,7 +16,6 @@
 
 package jurkin.popularmovies.data.repository;
 
-import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -29,7 +28,6 @@ import jurkin.popularmovies.data.model.MovieDetails;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.local.MovieLocalDataSource;
-import jurkin.popularmovies.data.repository.local.MoviePersistenceContract;
 import jurkin.popularmovies.data.repository.remote.MovieRemoteDataSource;
 import rx.Observable;
 

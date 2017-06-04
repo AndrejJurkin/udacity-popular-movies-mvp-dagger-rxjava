@@ -24,9 +24,9 @@ import android.provider.BaseColumns;
 
 import javax.inject.Inject;
 
-import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.MovieEntry;
-import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.ReviewEntry;
-import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.VideoEntry;
+import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
+import jurkin.popularmovies.data.repository.local.MovieContract.ReviewEntry;
+import jurkin.popularmovies.data.repository.local.MovieContract.VideoEntry;
 
 /**
  * Created by Andrej Jurkin on 5/27/17.
