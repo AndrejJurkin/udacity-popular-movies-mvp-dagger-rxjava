@@ -14,106 +14,91 @@
  * limitations under the License.
  */
 
-package jurkin.popularmovies.data.repository.remote;
+package jurkin.popularmovies.data.repository.cache;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.sql.DataSource;
 
-import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
-import jurkin.popularmovies.data.repository.DataSourceNotSupportedException;
 import jurkin.popularmovies.data.repository.MovieDataSource;
 import rx.Observable;
 
 /**
- * Created by Andrej Jurkin on 5/28/17.
+ * Created by Andrej Jurkin on 6/5/17.
  */
 
-@Singleton
-public final class MovieRemoteDataSource implements MovieDataSource {
-
-    private MovieService movieService;
-
-    @Inject
-    MovieRemoteDataSource(MovieService movieService) {
-        this.movieService = movieService;
-    }
+public class CacheDataSource implements MovieDataSource {
 
     @Override
     public Observable<List<Movie>> getPopularMovies() {
-        return movieService.getPopularMovies()
-                .flatMap(movieResponse -> Observable.just(movieResponse.getResults()));
+        return null;
     }
 
     @Override
     public Observable<List<Movie>> getTopRatedMovies() {
-        return movieService.getTopRatedMovies()
-                .flatMap(movieResponse -> Observable.just(movieResponse.getResults()));
+        return null;
     }
 
     @Override
     public Observable<Movie> getMovie(long movieId) {
-        return movieService.getMovie(movieId);
+        return null;
     }
 
     @Override
     public Observable<List<Video>> getVideos(long movieId) {
-        return movieService.getVideos(movieId)
-                .flatMap(movieVideosResponse -> Observable.just(movieVideosResponse.getVideos()));
+        return null;
     }
 
     @Override
     public Observable<List<MovieReview>> getReviews(long movieId) {
-        return movieService.getMovieReviews(movieId)
-                .flatMap(movieReviewsResponse -> Observable.just(movieReviewsResponse.getReviews()));
+        return null;
     }
 
     @Override
     public Observable<List<Movie>> getWatchlist() {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> addToWatchlist(long movieId) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> removeFromWatchlist(long movieId) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveMovies(Observable<List<Movie>> movies) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveMovie(Observable<Movie> movie) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveReviews(Observable<List<MovieReview>> reviews) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveReview(Observable<MovieReview> review) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveVideos(Observable<List<Video>> videos) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 
     @Override
     public Observable<Void> saveVideo(Observable<Video> video) {
-        return Observable.error(new DataSourceNotSupportedException());
+        return null;
     }
 }

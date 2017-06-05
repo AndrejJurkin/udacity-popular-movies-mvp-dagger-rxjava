@@ -44,4 +44,16 @@ public interface MovieDataSource {
     Observable<Void> addToWatchlist(long movieId);
 
     Observable<Void> removeFromWatchlist(long movieId);
+
+    Observable<Void> saveMovies(List<Movie> movies);
+
+    Observable<Void> saveMovie(Movie movie);
+
+    Observable<Void> saveReviews(List<MovieReview> reviews);
+
+    Observable<Void> saveReview(MovieReview review);
+
+    Observable<Void> saveVideos(List<Video> videos);
+
+    Observable<Void> saveVideo(Video video);
 }

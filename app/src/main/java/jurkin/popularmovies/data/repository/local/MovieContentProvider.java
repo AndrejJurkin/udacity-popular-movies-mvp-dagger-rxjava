@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.squareup.sqlbrite.BriteDatabase;
 import javax.inject.Inject;
 
 import jurkin.popularmovies.App;
+import jurkin.popularmovies.data.repository.local.MovieDbHelper.Tables;
 
 import static jurkin.popularmovies.data.repository.local.MovieContract.*;
 
@@ -53,7 +55,7 @@ public class MovieContentProvider extends ContentProvider {
     private static UriMatcher uriMatcher = buildUriMatcher();
 
     @Inject
-    BriteDatabase db;
+    MovieDbHelper dbHelper;
 
     @Inject
     ContentResolver contentResolver;
@@ -99,9 +101,9 @@ public class MovieContentProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
         switch (uriMatcher.match(uri)) {
             case MOVIES:
-                break;
+                return MovieEntry.CONTENT_TYPE;
             case MOVIE_ID:
-                break;
+                return MovieEntry.CONTENT_TYPE_ITEM;
             case MOVIE_ID_VIDEOS:
                 return VideoEntry.CONTENT_TYPE;
             case MOVIE_ID_REVIEWS:
@@ -109,34 +111,38 @@ public class MovieContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-
-        return null;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        if (values == null) {
+            return null;
+        }
+
+        Uri resultUri;
 
         switch (uriMatcher.match(uri)) {
             case MOVIES:
-                break;
-            case MOVIE_ID:
-                break;
-            case MOVIE_ID_VIDEOS:
-                break;
-            case MOVIE_ID_REVIEWS:
+                db.insertOrThrow(Tables.MOVIES, null, values);
+                resultUri = MovieEntry.buildMovieUri(values.getAsLong(MovieEntry.MOVIE_ID));
                 break;
             case REVIEWS:
-                break;
-            case REVIEW_ID:
+                db.insertOrThrow(Tables.REVIEWS, null, values);
+                resultUri = ReviewEntry.buildReviewUri(values.getAsString(ReviewEntry.REVIEW_ID));
                 break;
             case VIDEOS:
+                db.insertOrThrow(Tables.VIDEOS, null, values);
+                resultUri = ReviewEntry.buildReviewUri(values.getAsString(VideoEntry.VIDEO_ID));
                 break;
-            case VIDEO_ID:
-                break;
+            default:
+                throw new UnsupportedOperationException("Unknown insert uri: " + uri);
         }
 
-        return null;
+        contentResolver.notifyChange(resultUri, null);
+        return resultUri;
     }
 
     @Override

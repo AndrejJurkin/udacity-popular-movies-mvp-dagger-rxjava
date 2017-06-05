@@ -18,24 +18,25 @@ package jurkin.popularmovies.data.repository.local;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.text.method.MovementMethod;
+import android.util.SparseArray;
 
 import com.squareup.sqlbrite.BriteDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import jurkin.popularmovies.data.model.Movie;
-import jurkin.popularmovies.data.model.MovieDetails;
-import jurkin.popularmovies.data.model.MovieResponse;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieDataSource;
-import jurkin.popularmovies.data.repository.MovieRepository;
-import jurkin.popularmovies.data.repository.local.MoviePersistenceContract.MovieEntry;
+import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
 import rx.Observable;
+
+import static jurkin.popularmovies.data.repository.local.MovieDbHelper.*;
 
 /**
  * Created by Andrej Jurkin on 5/28/17.
@@ -45,42 +46,52 @@ import rx.Observable;
 public class MovieLocalDataSource implements MovieDataSource {
 
     private BriteDatabase db;
-    private ContentResolver contentResolver;
 
     @Inject
-    public MovieLocalDataSource(BriteDatabase db, ContentResolver contentResolver) {
+    public MovieLocalDataSource(BriteDatabase db) {
         this.db = db;
-        this.contentResolver = contentResolver;
     }
 
     @Override
     public Observable<List<Movie>> getPopularMovies() {
-        return null;
+        return db.createQuery(Tables.MOVIES, Query.POPULAR_MOVIES)
+                .mapToList(Movie.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
     public Observable<List<Movie>> getTopRatedMovies() {
-        return null;
+        return db.createQuery(Tables.MOVIES, Query.TOP_RATED)
+                .mapToList(Movie.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
-    public Observable<MovieDetails> getMovieDetails(long movieId) {
-        return null;
+    public Observable<Movie> getMovie(long movieId) {
+        return db.createQuery(Tables.MOVIES, Query.MOVIE_ID, String.valueOf(movieId))
+                .mapToOne(Movie.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
     public Observable<List<Video>> getVideos(long movieId) {
-        return null;
+        return db.createQuery(Tables.VIDEOS, Query.VIDEOS_MOVIE_ID, String.valueOf(movieId))
+                .mapToList(Video.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
     public Observable<List<MovieReview>> getReviews(long movieId) {
-        return null;
+        return db.createQuery(Tables.MOVIES, Query.REVIEWS_MOVIE_ID, String.valueOf(movieId))
+                .mapToList(MovieReview.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
     public Observable<List<Movie>> getWatchlist() {
-        return null;
+        return db.createQuery(Tables.MOVIES, Query.WATCHLIST)
+                .mapToList(Movie.MAPPER)
+                .flatMap(Observable::just);
     }
 
     @Override
@@ -89,7 +100,7 @@ public class MovieLocalDataSource implements MovieDataSource {
         cv.put(MovieEntry.MOVIE_IN_WATCHLIST, 1);
         String[] args = { String.valueOf(movieId) };
 
-        db.update(MovieDbHelper.Tables.MOVIES, cv, MovieEntry.MOVIE_ID + "=?", args);
+        db.update(Tables.MOVIES, cv, MovieEntry.MOVIE_ID + " = ? ", args);
 
         return Observable.just(null);
     }
@@ -97,11 +108,44 @@ public class MovieLocalDataSource implements MovieDataSource {
     @Override
     public Observable<Void> removeFromWatchlist(long movieId) {
         ContentValues cv = new ContentValues();
+
         cv.put(MovieEntry.MOVIE_IN_WATCHLIST, 0);
         String[] args = { String.valueOf(movieId) };
 
-        db.update(MovieDbHelper.Tables.MOVIES, cv, MovieEntry.MOVIE_ID + "=?", args);
+        db.update(Tables.MOVIES, cv, MovieEntry.MOVIE_ID + " = ? ", args);
 
         return Observable.just(null);
     }
+
+    @Override
+    public Observable<Void> saveMovies(List<Movie> movies) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> saveMovie(Movie movie) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> saveReviews(List<MovieReview> reviews) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> saveReview(MovieReview review) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> saveVideos(List<Video> videos) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> saveVideo(Video video) {
+        return null;
+    }
+
+
 }

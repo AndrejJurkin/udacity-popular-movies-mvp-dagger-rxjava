@@ -22,6 +22,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
@@ -70,7 +72,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieEntry.MOVIE_VOTE_AVERAGE + " REAL,"
                 + MovieEntry.MOVIE_RUNTIME + " INTEGER,"
                 + MovieEntry.MOVIE_ORIGINAL_LANGUAGE + " TEXT,"
-                + MovieEntry.MOVIE_IN_WATCHLIST + " INTEGER,"
+                + MovieEntry.MOVIE_IN_WATCHLIST + " INTEGER NOT NULL DEFAULT 0,"
                 + "UNIQUE (" + MovieEntry.MOVIE_ID + ") ON CONFLICT REPLACE)"
         );
 
@@ -86,8 +88,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + Tables.VIDEOS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + VideoEntry.VIDEO_ID + " INTEGER NOT NULL,"
-                + MovieEntry.MOVIE_ID + " TEXT NOT NULL " + References.MOVIE_ID + ","
+                + VideoEntry.VIDEO_ID + " TEXT NOT NULL,"
+                + MovieEntry.MOVIE_ID + " INTEGER NOT NULL " + References.MOVIE_ID + ","
                 + VideoEntry.VIDEO_KEY + " TEXT,"
                 + VideoEntry.VIDEO_NAME + " TEXT,"
                 + VideoEntry.VIDEO_SITE + " TEXT,"
@@ -119,5 +121,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
     public static int getInt(Cursor cursor, String columnName) {
         return cursor.getInt(cursor.getColumnIndexOrThrow(columnName));
+    }
+
+    public static Date getDate(Cursor cursor, String columnName) {
+        return new Date(getLong(cursor, columnName));
     }
 }

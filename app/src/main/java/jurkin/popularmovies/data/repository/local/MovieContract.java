@@ -35,9 +35,9 @@ public final class MovieContract {
     public static final String PATH_MOVIES = "movies";
     public static final String PATH_POPULAR_MOVIES = "popular";
     public static final String PATH_TOP_RATED = "top_rated";
-    public static final String PATH_WATCHLIST = "watchlist";
 
     public static final String PATH_REVIEWS = "reviews";
+
     public static final String PATH_VIDEOS = "videos";
 
     interface MovieColumns {
@@ -81,18 +81,6 @@ public final class MovieContract {
             return CONTENT_URI;
         }
 
-        public static Uri buildTopRatedMoviesUri() {
-            return CONTENT_URI.buildUpon().appendPath(PATH_TOP_RATED).build();
-        }
-
-        public static Uri buildPopularMoviesUri() {
-            return CONTENT_URI.buildUpon().appendPath(PATH_POPULAR_MOVIES).build();
-        }
-
-        public static Uri buildWatchlistMoviesUri() {
-            return CONTENT_URI.buildUpon().appendPath(PATH_WATCHLIST).build();
-        }
-
         public static Uri buildMovieUri(long movieId) {
             return CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
         }
@@ -109,13 +97,25 @@ public final class MovieContract {
     }
 
     public static class ReviewEntry implements BaseColumns, ReviewColumns, MovieColumns {
+        public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_REVIEWS).build();
+
         public static final String CONTENT_TYPE = makeContentDirType("review");
         public static final String CONTENT_TYPE_ITEM = makeContentItemType("review");
+
+        public static Uri buildReviewUri(String reviewId) {
+            return CONTENT_URI.buildUpon().appendPath(reviewId).build();
+        }
     }
 
     public static class VideoEntry implements BaseColumns, VideoColumns, MovieColumns {
+        public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_VIDEOS).build();
+
         public static final String CONTENT_TYPE = makeContentDirType("video");
         public static final String CONTENT_TYPE_ITEM = makeContentItemType("video");
+
+        public static Uri buildVideoUri(String videoId) {
+            return CONTENT_URI.buildUpon().appendPath(videoId).build();
+        }
     }
 
     public static String makeContentDirType(String id) {
