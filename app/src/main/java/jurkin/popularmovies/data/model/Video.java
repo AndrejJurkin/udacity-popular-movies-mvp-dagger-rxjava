@@ -16,6 +16,13 @@
 
 package jurkin.popularmovies.data.model;
 
+import android.database.Cursor;
+
+import jurkin.popularmovies.data.repository.local.MovieContract;
+import jurkin.popularmovies.data.repository.local.MovieContract.VideoEntry;
+import jurkin.popularmovies.data.repository.local.MovieDbHelper;
+import rx.functions.Func1;
+
 /**
  * Created by Andrej Jurkin on 5/25/17.
  */
@@ -24,11 +31,26 @@ public class Video {
 
     private static final String YOUTUBE_THUMB_URL = "https://img.youtube.com/vi/%s/0.jpg";
 
+    public static final Func1<Cursor, Video> MAPPER = cursor -> {
+        Video video = new Video();
+        video.setId(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_ID));
+        video.setKey(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_KEY));
+        video.setName(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_NAME));
+        video.setSite(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_SITE));
+        video.setSize(MovieDbHelper.getInt(cursor, VideoEntry.VIDEO_SIZE));
+        video.setType(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_TYPE));
+    };
+
     private String id;
+
     private String key;
+
     private String name;
+
     private String site;
+
     private int size;
+
     private String type;
 
     public String getId() {
@@ -57,5 +79,29 @@ public class Video {
 
     public String getThumbUrl() {
         return String.format(YOUTUBE_THUMB_URL, key);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

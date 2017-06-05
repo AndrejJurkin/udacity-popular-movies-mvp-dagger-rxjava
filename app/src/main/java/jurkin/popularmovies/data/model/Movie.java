@@ -16,20 +16,59 @@
 
 package jurkin.popularmovies.data.model;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.function.Function;
 
 import jurkin.popularmovies.App;
+import jurkin.popularmovies.data.repository.local.MovieContract;
+import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
+import jurkin.popularmovies.data.repository.local.MovieDbHelper;
+import rx.functions.Func1;
 
 /**
  * Created by Andrej Jurkin on 5/12/17.
  */
 
 public class Movie implements Parcelable {
+
+    public static final Func1<Cursor, Movie> MAPPER = cursor -> {
+        Movie movie = new Movie();
+        movie.setId(MovieDbHelper.getLong(cursor, MovieEntry.MOVIE_ID));
+        movie.setTitle(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_TITLE));
+        movie.setOverview(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_OVERVIEW));
+        movie.setPopularity(MovieDbHelper.getLong(cursor, MovieEntry.MOVIE_POPULARITY));
+        movie.setPosterPath(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_POSTER_PATH));
+        movie.setVoteAverage(MovieDbHelper.getLong(cursor, MovieEntry.MOVIE_VOTE_AVERAGE));
+        movie.setVoteCount(MovieDbHelper.getInt(cursor, MovieEntry.MOVIE_VOTE_COUNT));
+        movie.setInWatchlist(MovieDbHelper.getBoolean(cursor, MovieEntry.MOVIE_IN_WATCHLIST));
+        movie.setReleaseDate(MovieDbHelper.getDate(cursor, MovieEntry.MOVIE_RELEASE_DATE));
+        movie.setOriginalLanguage(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_ORIGINAL_LANGUAGE));
+        movie.setRuntime(MovieDbHelper.getInt(cursor, MovieEntry.MOVIE_RUNTIME));
+        return movie;
+    };
+
+    public static final Func1<Movie, ContentValues> CONTENT_MAPPER = movie -> {
+        ContentValues cv = new ContentValues();
+        cv.put(MovieEntry.MOVIE_ID, movie.getId());
+        cv.put(MovieEntry.MOVIE_TITLE, movie.getTitle());
+        cv.put(MovieEntry.MOVIE_OVERVIEW, movie.getOverview());
+        cv.put(MovieEntry.MOVIE_POPULARITY, movie.getPopularity());
+        cv.put(MovieEntry.MOVIE_POSTER_PATH, movie.getPosterPath());
+        cv.put(MovieEntry.MOVIE_BACKDROP_PATH, movie.getBackdropPath());
+        cv.put(MovieEntry.MOVIE_VOTE_COUNT, movie.voteCount);
+        cv.put(MovieEntry.MOVIE_RELEASE_DATE, movie.getReleaseDate().getTime());
+        cv.put(MovieEntry.MOVIE_ORIGINAL_LANGUAGE, movie.getOriginalLanguage());
+        cv.put(MovieEntry.MOVIE_IN_WATCHLIST, movie.isInWatchlist());
+        cv.put(MovieEntry.MOVIE_RUNTIME, movie.getRuntime());
+        return cv;
+    };
 
     private long id;
 
@@ -61,6 +100,8 @@ public class Movie implements Parcelable {
 
     private int runtime;
 
+    private boolean isInWatchlist;
+
     protected Movie(Parcel in) {
         id = in.readLong();
         title = in.readString();
@@ -73,6 +114,7 @@ public class Movie implements Parcelable {
         originalLanguage = in.readString();
         revenue = in.readLong();
         runtime = in.readInt();
+        isInWatchlist = in.readByte() != 0;
     }
 
     @Override
@@ -88,6 +130,7 @@ public class Movie implements Parcelable {
         dest.writeString(originalLanguage);
         dest.writeLong(revenue);
         dest.writeInt(runtime);
+        dest.writeByte((byte) (isInWatchlist ? 1 : 0));
     }
 
     @Override
@@ -193,6 +236,30 @@ public class Movie implements Parcelable {
 
     public int getRuntime() {
         return runtime;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setRevenue(long revenue) {
+        this.revenue = revenue;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public boolean isInWatchlist() {
+        return isInWatchlist;
+    }
+
+    public void setInWatchlist(boolean inWatchlist) {
+        isInWatchlist = inWatchlist;
     }
 
     public Movie() {

@@ -16,15 +16,36 @@
 
 package jurkin.popularmovies.data.model;
 
+import android.database.Cursor;
+
+import jurkin.popularmovies.data.repository.MovieRepository;
+import jurkin.popularmovies.data.repository.local.MovieContract;
+import jurkin.popularmovies.data.repository.local.MovieDbHelper;
+import rx.functions.Func1;
+
+import static jurkin.popularmovies.data.repository.local.MovieContract.*;
+
 /**
  * Created by Andrej Jurkin on 5/25/17.
  */
 
 public class MovieReview {
 
+    public static final Func1<Cursor, MovieReview> MAPPER = cursor -> {
+        MovieReview review = new MovieReview();
+        review.setId(MovieDbHelper.getString(cursor, ReviewEntry.REVIEW_ID));
+        review.setAuthor(MovieDbHelper.getString(cursor, ReviewEntry.REVIEW_AUTHOR));
+        review.setContent(MovieDbHelper.getString(cursor, ReviewEntry.REVIEW_CONTENT));
+        review.setUrl(MovieDbHelper.getString(cursor, ReviewEntry.REVIEW_URL));
+        return review;
+    };
+
     private String id;
+
     private String author;
+
     private String content;
+
     private String url;
 
     public String getId() {
@@ -41,5 +62,21 @@ public class MovieReview {
 
     public String getUrl() {
         return url;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
