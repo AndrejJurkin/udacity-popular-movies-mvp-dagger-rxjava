@@ -26,4 +26,9 @@
         android:id="@+id/menu_top_rated"
         android:title="@string/sort_top_rated"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_watch_list"
+        android:title="@string/watchlist"
+        app:showAsAction="never" />
 </menu>

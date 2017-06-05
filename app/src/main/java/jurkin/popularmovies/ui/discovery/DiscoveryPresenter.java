@@ -18,15 +18,11 @@ package jurkin.popularmovies.ui.discovery;
 
 import android.util.Log;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import jurkin.popularmovies.R;
-import jurkin.popularmovies.api.MovieService;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.repository.MovieRepository;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -52,7 +48,7 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
 
     @Override
     public void subscribe() {
-        fetchPopularMovies();
+        loadPopularMovies();
         view.setActionBarTitle(R.string.sort_most_popular);
     }
 
@@ -73,17 +69,23 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
 
     @Override
     public void onPopularMoviesClicked() {
-        fetchPopularMovies();
+        loadPopularMovies();
         view.setActionBarTitle(R.string.sort_most_popular);
     }
 
     @Override
     public void onTopRatedMoviesClicked() {
-        fetchTopRatedMovies();
+        loadTopRatedMovies();
         view.setActionBarTitle(R.string.sort_top_rated);
     }
 
-    private void fetchPopularMovies() {
+    @Override
+    public void onWatchlistClick() {
+        loadWatchlist();
+        view.setActionBarTitle(R.string.watchlist);
+    }
+
+    private void loadPopularMovies() {
         // TODO: show loading indicator
         subscriptions.add(movieRepository.getPopularMovies()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,10 +98,10 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
                 }));
     }
 
-    private void fetchTopRatedMovies() {
+    private void loadTopRatedMovies() {
         // TODO: show loading indicator
-        subscriptions.add(movieRepository.getTopRatedMovies().
-                observeOn(AndroidSchedulers.mainThread())
+        subscriptions.add(movieRepository.getTopRatedMovies()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movies -> {
                     Log.d(TAG, "Top rated movies fetched successfully.");
                     view.showMovies(movies);
@@ -107,5 +109,9 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
                     Log.e(TAG, "Failed to fetch popular movies" + throwable);
                     // TODO: view.showErro
                 }));
+    }
+
+    private void loadWatchlist() {
+
     }
 }
