@@ -18,6 +18,7 @@ package jurkin.popularmovies.data.repository.cache;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import jurkin.popularmovies.data.model.Movie;
@@ -32,14 +33,22 @@ import rx.Observable;
 
 public class CacheDataSource implements MovieDataSource {
 
+    // Dummy cache
+    private List<Movie> moviesCache;
+
+    @Inject
+    public CacheDataSource() {
+
+    }
+
     @Override
     public Observable<List<Movie>> getPopularMovies() {
-        return null;
+        return Observable.just(moviesCache);
     }
 
     @Override
     public Observable<List<Movie>> getTopRatedMovies() {
-        return null;
+        return Observable.just(moviesCache);
     }
 
     @Override
@@ -73,32 +82,32 @@ public class CacheDataSource implements MovieDataSource {
     }
 
     @Override
-    public Observable<Void> saveMovies(Observable<List<Movie>> movies) {
+    public Observable<Void> saveMovies(List<Movie> movies) {
         return null;
     }
 
     @Override
-    public Observable<Void> saveMovie(Observable<Movie> movie) {
+    public Observable<Void> saveMovie(Movie movie) {
         return null;
     }
 
     @Override
-    public Observable<Void> saveReviews(Observable<List<MovieReview>> reviews) {
+    public Observable<Void> saveReviews(List<MovieReview> reviews) {
         return null;
     }
 
     @Override
-    public Observable<Void> saveReview(Observable<MovieReview> review) {
+    public Observable<Void> saveReview(MovieReview review) {
         return null;
     }
 
     @Override
-    public Observable<Void> saveVideos(Observable<List<Video>> videos) {
+    public Observable<Void> saveVideos(List<Video> videos) {
         return null;
     }
 
     @Override
-    public Observable<Void> saveVideo(Observable<Video> video) {
+    public Observable<Void> saveVideo(Video video) {
         return null;
     }
 }

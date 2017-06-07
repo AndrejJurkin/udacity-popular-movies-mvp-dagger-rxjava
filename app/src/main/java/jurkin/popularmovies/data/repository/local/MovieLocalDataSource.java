@@ -91,7 +91,8 @@ public class MovieLocalDataSource implements MovieDataSource {
     public Observable<List<Movie>> getWatchlist() {
         return db.createQuery(Tables.MOVIES, Query.WATCHLIST)
                 .mapToList(Movie.MAPPER)
-                .flatMap(Observable::just);
+                .flatMap(Observable::just)
+                .first();
     }
 
     @Override
@@ -119,12 +120,25 @@ public class MovieLocalDataSource implements MovieDataSource {
 
     @Override
     public Observable<Void> saveMovies(List<Movie> movies) {
-        return null;
+        BriteDatabase.Transaction transaction = db.newTransaction();
+
+        try {
+            for (Movie m : movies) {
+                db.insert(Tables.MOVIES, Movie.toContentValues(m));
+
+            }
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
+
+        return Observable.just(null);
     }
 
     @Override
     public Observable<Void> saveMovie(Movie movie) {
-        return null;
+        db.insert(Tables.MOVIES, Movie.toContentValues(movie));
+        return Observable.just(null);
     }
 
     @Override

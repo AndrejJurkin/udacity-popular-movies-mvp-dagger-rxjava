@@ -39,6 +39,7 @@ public class Video {
         video.setSite(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_SITE));
         video.setSize(MovieDbHelper.getInt(cursor, VideoEntry.VIDEO_SIZE));
         video.setType(MovieDbHelper.getString(cursor, VideoEntry.VIDEO_TYPE));
+        return video;
     };
 
     private String id;

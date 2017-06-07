@@ -32,7 +32,7 @@ interface Query {
             + " ORDER BY " + MovieEntry.MOVIE_VOTE_AVERAGE + " DESC";
 
     String WATCHLIST = "SELECT * FROM " + Tables.MOVIES
-            + " WHERE " + MovieEntry.MOVIE_IN_WATCHLIST + " = ? ";
+            + " WHERE " + MovieEntry.MOVIE_IN_WATCHLIST + " = 1";
 
     String MOVIE_ID = "SELECT * FROM " + Tables.MOVIES
             + " WHERE " + MovieEntry.MOVIE_ID + " = ? ";

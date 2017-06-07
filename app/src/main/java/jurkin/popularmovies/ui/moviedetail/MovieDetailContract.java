@@ -63,7 +63,7 @@ public interface MovieDetailContract {
 
     interface Presenter extends BasePresenter {
 
-        void onAddToFavoritesButtonClick();
+        void onAddToWatchlistClick();
 
         void onVideoClicked(Video video);
     }

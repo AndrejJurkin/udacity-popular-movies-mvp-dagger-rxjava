@@ -24,10 +24,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
-import java.util.function.Function;
 
 import jurkin.popularmovies.App;
-import jurkin.popularmovies.data.repository.local.MovieContract;
 import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
 import jurkin.popularmovies.data.repository.local.MovieDbHelper;
 import rx.functions.Func1;
@@ -54,7 +52,9 @@ public class Movie implements Parcelable {
         return movie;
     };
 
-    public static final Func1<Movie, ContentValues> CONTENT_MAPPER = movie -> {
+    public static final Func1<Movie, ContentValues> CONTENT_MAPPER = Movie::toContentValues;
+
+    public static ContentValues toContentValues(Movie movie) {
         ContentValues cv = new ContentValues();
         cv.put(MovieEntry.MOVIE_ID, movie.getId());
         cv.put(MovieEntry.MOVIE_TITLE, movie.getTitle());
@@ -68,7 +68,7 @@ public class Movie implements Parcelable {
         cv.put(MovieEntry.MOVIE_IN_WATCHLIST, movie.isInWatchlist());
         cv.put(MovieEntry.MOVIE_RUNTIME, movie.getRuntime());
         return cv;
-    };
+    }
 
     private long id;
 

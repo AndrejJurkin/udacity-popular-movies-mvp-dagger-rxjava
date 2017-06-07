@@ -50,12 +50,12 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void unsubscribe() {
+    public void unsubscribeView() {
         this.subscriptions.unsubscribe();
     }
 
     @Override
-    public void unsubscribeDataSubscriptions() {
+    public void unsubscribeData() {
 
     }
 
@@ -75,8 +75,12 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void onAddToFavoritesButtonClick() {
-
+    public void onAddToWatchlistClick() {
+        if (movie.isInWatchlist()) {
+            this.movieRepository.removeFromWatchlist(movie.getId());
+        } else {
+            this.movieRepository.addToWatchlist(movie.getId());
+        }
     }
 
     @Override
@@ -92,7 +96,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                         movieDetails -> {
                             Log.d(TAG, "Movie details fetched successfully");
                             Calendar releaseDate = Calendar.getInstance();
-                            releaseDate.setTime(movie.getReleaseDate());
+                            releaseDate.setTime(movieDetails.getReleaseDate());
 
                             String summary = String.format("%s, %s, %s mins",
                                     movieDetails.getOriginalLanguage().toUpperCase(),

@@ -60,7 +60,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
-                + BaseColumns._ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MovieEntry.MOVIE_ID + " INTEGER NOT NULL,"
                 + MovieEntry.MOVIE_TITLE + " TEXT,"
                 + MovieEntry.MOVIE_OVERVIEW + " TEXT,"
@@ -94,8 +94,8 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + VideoEntry.VIDEO_NAME + " TEXT,"
                 + VideoEntry.VIDEO_SITE + " TEXT,"
                 + VideoEntry.VIDEO_SIZE + " INTEGER,"
-                + VideoEntry.VIDEO_TYPE + " TEXT"
-                + "UNIQUE (" + VideoEntry.VIDEO_ID + ") ON CONFLICT REPLACE)"
+                + VideoEntry.VIDEO_TYPE + " TEXT,"
+                + " UNIQUE (" + VideoEntry.VIDEO_ID + ") ON CONFLICT REPLACE)"
         );
     }
 

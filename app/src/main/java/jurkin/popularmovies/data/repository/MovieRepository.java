@@ -19,7 +19,9 @@ package jurkin.popularmovies.data.repository;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,7 +29,6 @@ import javax.inject.Singleton;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
-import jurkin.popularmovies.data.repository.cache.CacheDataSource;
 import jurkin.popularmovies.data.repository.local.MovieLocalDataSource;
 import jurkin.popularmovies.data.repository.remote.MovieRemoteDataSource;
 import rx.Observable;
@@ -42,39 +43,37 @@ public final class MovieRepository {
 
     private MovieDataSource remoteData;
     private MovieDataSource localData;
-    private MovieDataSource cacheData;
 
     @Inject
-    MovieRepository(MovieRemoteDataSource remoteDataSource, MovieLocalDataSource localDataSource,
-                    CacheDataSource cacheDataSource) {
+    MovieRepository(MovieRemoteDataSource remoteDataSource, MovieLocalDataSource localDataSource) {
         this.remoteData = remoteDataSource;
         this.localData = localDataSource;
-        this.cacheData = cacheDataSource;
     }
 
     @NonNull
     public Observable<List<Movie>> getPopularMovies() {
-        
-        Observable<List<Movie>> cachedRemote = remoteData.getPopularMovies()
-                .doOnNext(movies -> {
-                    localData.saveMovies(movies);
-                    cacheData.saveMovies(movies);
-                });
-
-        Observable<List<Movie>> cachedLocal = localData.getPopularMovies()
-                .doOnNext(movies -> cacheData.saveMovies(movies));
-
-        return Observable.concat(cacheData.getPopularMovies(), cachedLocal, cachedRemote).first();
+        return remoteData.getPopularMovies()
+                .doOnNext(
+                        // Cache movies into local db
+                        movies -> localData.saveMovies(movies))
+                .onErrorResumeNext(
+                        // If remote request fails, get cached data from db
+                        throwable -> localData.getPopularMovies());
     }
 
     @NonNull
     public Observable<List<Movie>> getTopRatedMovies() {
-        return remoteData.getTopRatedMovies();
+        return remoteData.getTopRatedMovies()
+                .doOnNext(movies -> localData.saveMovies(movies))
+                .onErrorResumeNext(throwable -> localData.getTopRatedMovies());
     }
 
     @NonNull
     public Observable<Movie> getMovie(long movieId) {
-        return remoteData.getMovie(movieId);
+        remoteData.getMovie(movieId)
+                .subscribe(movie -> localData.saveMovie(movie), throwable -> {});
+
+        return localData.getMovie(movieId);
     }
 
     @NonNull
@@ -89,7 +88,7 @@ public final class MovieRepository {
 
     @NonNull
     public Observable<List<Movie>> getWatchlist() {
-        return Observable.error(new DataSourceNotSupportedException());
+        return localData.getWatchlist();
     }
 
     @NonNull

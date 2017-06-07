@@ -84,7 +84,7 @@ public class MovieContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        App.get().getAppComponent().inject(this);
+//        App.get().getAppComponent().inject(this);
 
         return false;
     }

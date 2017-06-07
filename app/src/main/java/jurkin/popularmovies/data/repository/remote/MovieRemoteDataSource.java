@@ -88,32 +88,33 @@ public final class MovieRemoteDataSource implements MovieDataSource {
     }
 
     @Override
-    public Observable<Void> saveMovies(Observable<List<Movie>> movies) {
+    public Observable<Void> saveMovies(List<Movie> movies) {
         return Observable.error(new DataSourceNotSupportedException());
     }
 
     @Override
-    public Observable<Void> saveMovie(Observable<Movie> movie) {
-        return Observable.error(new DataSourceNotSupportedException());
+    public Observable<Void> saveMovie(Movie movie) {
+        return null;
     }
 
     @Override
-    public Observable<Void> saveReviews(Observable<List<MovieReview>> reviews) {
-        return Observable.error(new DataSourceNotSupportedException());
+    public Observable<Void> saveReviews(List<MovieReview> reviews) {
+        return null;
     }
 
     @Override
-    public Observable<Void> saveReview(Observable<MovieReview> review) {
-        return Observable.error(new DataSourceNotSupportedException());
+    public Observable<Void> saveReview(MovieReview review) {
+        return null;
     }
 
     @Override
-    public Observable<Void> saveVideos(Observable<List<Video>> videos) {
-        return Observable.error(new DataSourceNotSupportedException());
+    public Observable<Void> saveVideos(List<Video> videos) {
+        return null;
     }
 
     @Override
-    public Observable<Void> saveVideo(Observable<Video> video) {
-        return Observable.error(new DataSourceNotSupportedException());
+    public Observable<Void> saveVideo(Video video) {
+        return null;
     }
+
 }

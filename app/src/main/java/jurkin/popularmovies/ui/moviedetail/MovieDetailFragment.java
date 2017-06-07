@@ -72,7 +72,7 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @BindView(R.id.movie_detail_summary)
     TextView movieDetailSummary;
 
-    @BindView(R.id.add_to_favorites_button)
+    @BindView(R.id.add_to_watchlist_button)
     AppCompatButton addToFavoritesButton;
 
     @BindView(R.id.videos_recycler_view)
@@ -195,10 +195,10 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
         reviewAdapter.setData(reviews);
     }
 
-    @OnClick
+    @OnClick(R.id.add_to_watchlist_button)
     @SuppressWarnings("unused")
     public void onAddToFavoritesButtonClick() {
-        this.presenter.onAddToFavoritesButtonClick();
+        this.presenter.onAddToWatchlistClick();
     }
 
     @Override

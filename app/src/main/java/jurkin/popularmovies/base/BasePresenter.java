@@ -24,7 +24,7 @@ public interface BasePresenter {
 
     void subscribe();
 
-    void unsubscribe();
+    void unsubscribeView();
 
-    void unsubscribeDataSubscriptions();
+    void unsubscribeData();
 }

@@ -108,6 +108,9 @@ public class DiscoveryFragment extends BaseFragment
                 break;
             case R.id.menu_top_rated:
                 presenter.onTopRatedMoviesClicked();
+                break;
+            case R.id.menu_watch_list:
+                presenter.onWatchlistClick();
                 // Falls through
             default:
                 break;
@@ -128,7 +131,6 @@ public class DiscoveryFragment extends BaseFragment
 
     @Override
     public void showMovies(List<Movie> movies) {
-        Log.d(TAG, "Show movies." + isVisible());
         this.adapter.setData(movies);
     }
 
