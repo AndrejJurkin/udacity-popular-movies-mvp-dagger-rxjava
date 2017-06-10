@@ -73,7 +73,7 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     TextView movieDetailSummary;
 
     @BindView(R.id.add_to_watchlist_button)
-    AppCompatButton addToFavoritesButton;
+    AppCompatButton addToWatchlistButton;
 
     @BindView(R.id.videos_recycler_view)
     RecyclerView videosRecyclerView;
@@ -193,6 +193,11 @@ public class MovieDetailFragment extends BasePresenterFragment<MovieDetailContra
     @Override
     public void showReviews(List<MovieReview> reviews) {
         reviewAdapter.setData(reviews);
+    }
+
+    @Override
+    public void setWatchlistButtonText(int resId) {
+        addToWatchlistButton.setText(resId);
     }
 
     @OnClick(R.id.add_to_watchlist_button)

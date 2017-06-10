@@ -39,7 +39,6 @@ import rx.Observable;
 
 @Singleton
 public final class MovieRepository {
-    private static final String TAG = "MovieRepository";
 
     private MovieDataSource remoteData;
     private MovieDataSource localData;
@@ -78,12 +77,16 @@ public final class MovieRepository {
 
     @NonNull
     public Observable<List<Video>> getVideos(long movieId) {
-        return remoteData.getVideos(movieId);
+        return remoteData.getVideos(movieId)
+                .doOnNext(videos -> localData.saveVideos(videos))
+                .onErrorResumeNext(throwable -> localData.getVideos(movieId));
     }
 
     @NonNull
     public Observable<List<MovieReview>> getReviews(long movieId) {
-        return remoteData.getReviews(movieId);
+        return remoteData.getReviews(movieId)
+                .doOnNext(reviews -> localData.saveReviews(reviews))
+                .onErrorResumeNext(throwable -> localData.getReviews(movieId));
     }
 
     @NonNull

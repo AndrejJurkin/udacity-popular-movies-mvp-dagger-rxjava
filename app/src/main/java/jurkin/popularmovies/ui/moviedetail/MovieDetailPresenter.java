@@ -23,6 +23,7 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
+import jurkin.popularmovies.R;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieRepository;
@@ -72,14 +73,20 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         this.view.setPosterImage(movie.getFullPosterPath());
         this.view.setUserRating(String.format("%.1f (%d)",
                 movie.getVoteAverage(), movie.getVoteCount()));
+
+        int watchlistButtonText = movie.isInWatchlist() ?
+                R.string.remove_from_watchlist : R.string.add_to_watchlist;
+        this.view.setWatchlistButtonText(watchlistButtonText);
     }
 
     @Override
     public void onAddToWatchlistClick() {
         if (movie.isInWatchlist()) {
             this.movieRepository.removeFromWatchlist(movie.getId());
+            this.view.setWatchlistButtonText(R.string.add_to_watchlist);
         } else {
             this.movieRepository.addToWatchlist(movie.getId());
+            this.view.setWatchlistButtonText(R.string.remove_from_watchlist);
         }
     }
 

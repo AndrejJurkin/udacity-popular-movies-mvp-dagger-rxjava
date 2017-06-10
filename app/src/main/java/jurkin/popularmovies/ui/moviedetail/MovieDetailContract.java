@@ -59,6 +59,8 @@ public interface MovieDetailContract {
         void playVideo(String videoUrl);
 
         void showReviews(List<MovieReview> reviews);
+
+        void setWatchlistButtonText(int resId);
     }
 
     interface Presenter extends BasePresenter {
