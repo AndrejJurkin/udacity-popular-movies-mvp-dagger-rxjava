@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseFragment;
+import jurkin.popularmovies.base.BasePresenterFragment;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.ui.moviedetail.MovieDetailActivity;
 
@@ -46,16 +47,14 @@ import jurkin.popularmovies.ui.moviedetail.MovieDetailActivity;
  *
  * TODO: refactor to BaseFragment<View>
  */
-public class DiscoveryFragment extends BaseFragment
+public class DiscoveryFragment extends BasePresenterFragment<DiscoveryContract.Presenter>
         implements DiscoveryContract.View, DiscoveryAdapter.OnMovieClickListener {
 
     private static final String TAG = "DiscoveryFragment";
+    private static final String ARG_CONTENT_TYPE = "content_type";
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-
-    @Inject
-    DiscoveryContract.Presenter presenter;
 
     @Inject
     RecyclerView.LayoutManager layoutManager;
@@ -73,10 +72,21 @@ public class DiscoveryFragment extends BaseFragment
         super.onAttach(context);
     }
 
+    @Inject
+    @Override
+    public void setPresenter(DiscoveryContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if (savedInstanceState != null) {
+            int contentType = savedInstanceState.getInt(ARG_CONTENT_TYPE);
+            presenter.setContentType(contentType);
+        }
     }
 
     @Nullable
@@ -119,14 +129,9 @@ public class DiscoveryFragment extends BaseFragment
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.subscribe();
-    }
-
-    @Override
-    public void setPresenter(DiscoveryContract.Presenter presenter) {
-        this.presenter = presenter;
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(ARG_CONTENT_TYPE, presenter.getContentType());
+        super.onSaveInstanceState(outState);
     }
 
     @Override

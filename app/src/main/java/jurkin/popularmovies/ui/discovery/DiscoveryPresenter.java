@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.data.model.Movie;
 import jurkin.popularmovies.data.repository.MovieRepository;
+import jurkin.popularmovies.ui.moviedetail.MovieDetailContract;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -34,6 +35,10 @@ import rx.subscriptions.CompositeSubscription;
 class DiscoveryPresenter implements DiscoveryContract.Presenter {
     private static final String TAG = "DiscoveryPresenter";
 
+    private static final int CONTENT_TYPE_POPULAR_MOVIES = 1;
+    private static final int CONTENT_TYPE_TOP_RATED = 2;
+    private static final int CONTENT_TYPE_WATCHLIST = 4;
+
     private DiscoveryContract.View view;
     private MovieRepository movieRepository;
     private CompositeSubscription subscriptions;
@@ -41,11 +46,20 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
     private boolean isViewSubscribed;
     private boolean isViewLoaded;
 
+    private int contentType;
+
     @Inject
     DiscoveryPresenter(DiscoveryContract.View view, MovieRepository movieRepository) {
-        this.view = view;
         this.subscriptions = new CompositeSubscription();
         this.movieRepository = movieRepository;
+        this.view = view;
+        this.contentType = CONTENT_TYPE_POPULAR_MOVIES;
+    }
+
+
+    @Override
+    public void setView(DiscoveryContract.View view) {
+        this.view = view;
     }
 
     @Override
@@ -54,7 +68,7 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
 
         if (!isViewLoaded) {
             isViewLoaded = true;
-            loadPopularMovies();
+            loadContent();
             view.setActionBarTitle(R.string.sort_most_popular);
         }
     }
@@ -78,18 +92,48 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
     public void onPopularMoviesClicked() {
         loadPopularMovies();
         view.setActionBarTitle(R.string.sort_most_popular);
+        this.contentType = CONTENT_TYPE_POPULAR_MOVIES;
+
     }
 
     @Override
     public void onTopRatedMoviesClicked() {
         loadTopRatedMovies();
         view.setActionBarTitle(R.string.sort_top_rated);
+        this.contentType = CONTENT_TYPE_TOP_RATED;
     }
 
     @Override
     public void onWatchlistClick() {
         loadWatchlist();
         view.setActionBarTitle(R.string.watchlist);
+        this.contentType = CONTENT_TYPE_WATCHLIST;
+
+    }
+
+    @Override
+    public void setContentType(int contentType) {
+        this.contentType = contentType;
+    }
+
+    @Override
+    public int getContentType() {
+        return contentType;
+    }
+
+    private void loadContent() {
+        switch (contentType) {
+            case CONTENT_TYPE_POPULAR_MOVIES:
+                loadPopularMovies();
+                break;
+            case CONTENT_TYPE_TOP_RATED:
+                loadTopRatedMovies();
+                break;
+            case CONTENT_TYPE_WATCHLIST:
+                loadWatchlist();
+            default:
+                break;
+        }
     }
 
     private void loadPopularMovies() {

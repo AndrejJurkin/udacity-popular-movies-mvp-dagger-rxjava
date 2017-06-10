@@ -46,7 +46,7 @@ public final class LocalDataSourceModule {
     @Singleton
     BriteDatabase providesBriteDatabase(SqlBrite sqlBrite, MovieDbHelper dbHelper) {
         BriteDatabase db = sqlBrite.wrapDatabaseHelper(dbHelper, Schedulers.io());
-        db.setLoggingEnabled(true);
+        db.setLoggingEnabled(false);
         return db;
     }
 

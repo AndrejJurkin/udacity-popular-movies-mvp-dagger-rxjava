@@ -17,6 +17,7 @@
 package jurkin.popularmovies.ui.discovery;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ import jurkin.popularmovies.data.repository.MovieRepository;
 public interface DiscoveryContract {
 
     interface View extends BaseView<Presenter> {
+
         void showMovies(List<Movie> movies);
 
         void showDetail(Movie movie);
@@ -48,6 +50,7 @@ public interface DiscoveryContract {
     }
 
     interface Presenter extends BasePresenter {
+
         void onMovieClicked(Movie movie);
 
         void onPopularMoviesClicked();
@@ -55,6 +58,12 @@ public interface DiscoveryContract {
         void onTopRatedMoviesClicked();
 
         void onWatchlistClick();
+
+        void setView(View view);
+
+        void setContentType(int contentType);
+
+        int getContentType();
     }
 
     @Module
@@ -82,7 +91,9 @@ public interface DiscoveryContract {
 
         @Provides
         RecyclerView.LayoutManager providesLayoutManager(Context context) {
-            return new GridLayoutManager(context, 2);
+            int spanCount = fragment.getResources()
+                    .getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 4;
+            return new GridLayoutManager(context, spanCount);
         }
 
         @Provides
