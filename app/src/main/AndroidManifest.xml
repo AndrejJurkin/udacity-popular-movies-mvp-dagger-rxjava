@@ -45,10 +45,9 @@
             android:theme="@style/AppTheme.ActionBar.Translucent" />
 
         <provider
-            android:authorities="jurkin.popularmovies"
+            android:authorities="jurkin.popularmovies.provider"
             android:name=".data.repository.local.MovieContentProvider"
             android:exported="false" />
-        e
     </application>
 
 </manifest>

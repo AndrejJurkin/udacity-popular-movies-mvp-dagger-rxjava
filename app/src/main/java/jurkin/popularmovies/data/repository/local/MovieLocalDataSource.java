@@ -16,8 +16,10 @@
 
 package jurkin.popularmovies.data.repository.local;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 
+import com.squareup.sqlbrite.BriteContentResolver;
 import com.squareup.sqlbrite.BriteDatabase;
 
 import java.util.List;
@@ -43,10 +45,12 @@ import static jurkin.popularmovies.data.repository.local.MovieDbHelper.*;
 public class MovieLocalDataSource implements MovieDataSource {
 
     private BriteDatabase db;
+    private ContentResolver contentResolver;
 
     @Inject
-    public MovieLocalDataSource(BriteDatabase db) {
+    public MovieLocalDataSource(BriteDatabase db, ContentResolver contentResolver) {
         this.db = db;
+        this.contentResolver = contentResolver;
     }
 
     @Override
@@ -98,7 +102,7 @@ public class MovieLocalDataSource implements MovieDataSource {
         cv.put(MovieEntry.MOVIE_IN_WATCHLIST, 1);
         String[] args = { String.valueOf(movieId) };
 
-        db.update(Tables.MOVIES, cv, MovieEntry.MOVIE_ID + " = ? ", args);
+        contentResolver.update(MovieEntry.CONTENT_URI, cv, Clause.EQUALS_MOVIE_ID, args);
 
         return Observable.just(null);
     }
@@ -110,7 +114,7 @@ public class MovieLocalDataSource implements MovieDataSource {
         cv.put(MovieEntry.MOVIE_IN_WATCHLIST, 0);
         String[] args = { String.valueOf(movieId) };
 
-        db.update(Tables.MOVIES, cv, MovieEntry.MOVIE_ID + " = ? ", args);
+        contentResolver.update(MovieEntry.CONTENT_URI, cv, Clause.EQUALS_MOVIE_ID, args);
 
         return Observable.just(null);
     }

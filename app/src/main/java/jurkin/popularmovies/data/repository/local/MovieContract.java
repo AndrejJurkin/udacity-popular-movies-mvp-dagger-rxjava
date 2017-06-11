@@ -33,12 +33,6 @@ public final class MovieContract {
     private static final String CONTENT_TYPE_ITEM = "vnd.android.cursor.item/vnd." + CONTENT_TYPE_APP;
 
     public static final String PATH_MOVIES = "movies";
-    public static final String PATH_POPULAR_MOVIES = "popular";
-    public static final String PATH_TOP_RATED = "top_rated";
-
-    public static final String PATH_REVIEWS = "reviews";
-
-    public static final String PATH_VIDEOS = "videos";
 
     interface MovieColumns {
         String MOVIE_ID = "movie_movie_id";
@@ -72,53 +66,25 @@ public final class MovieContract {
     }
 
     public static class MovieEntry implements BaseColumns, MovieColumns {
-        public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_MOVIES).build();
+        static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_MOVIES).build();
 
-        public static final String CONTENT_TYPE = makeContentDirType("movie");
-        public static final String CONTENT_TYPE_ITEM = makeContentItemType("movie");
+        static final String CONTENT_TYPE = makeContentDirType("movie");
+        static final String CONTENT_TYPE_ITEM = makeContentItemType("movie");
 
-        public static Uri buildMoviesUri() {
-            return CONTENT_URI;
-        }
-
-        public static Uri buildMovieUri(long movieId) {
+        static Uri buildMovieUri(long movieId) {
             return CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
-        }
-
-        public static Uri buildReviewsUri(long movieId) {
-            return CONTENT_URI.buildUpon().appendPath(
-                    String.valueOf(movieId)).appendPath(PATH_REVIEWS).build();
-        }
-
-        public static Uri buildVideosUri(long movieId) {
-            return CONTENT_URI.buildUpon().appendPath(
-                    String.valueOf(movieId)).appendPath(PATH_VIDEOS).build();
         }
     }
 
     public static class ReviewEntry implements BaseColumns, ReviewColumns, MovieColumns {
-        public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_REVIEWS).build();
 
-        public static final String CONTENT_TYPE = makeContentDirType("review");
-        public static final String CONTENT_TYPE_ITEM = makeContentItemType("review");
-
-        public static Uri buildReviewUri(String reviewId) {
-            return CONTENT_URI.buildUpon().appendPath(reviewId).build();
-        }
     }
 
     public static class VideoEntry implements BaseColumns, VideoColumns, MovieColumns {
-        public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_VIDEOS).build();
 
-        public static final String CONTENT_TYPE = makeContentDirType("video");
-        public static final String CONTENT_TYPE_ITEM = makeContentItemType("video");
-
-        public static Uri buildVideoUri(String videoId) {
-            return CONTENT_URI.buildUpon().appendPath(videoId).build();
-        }
     }
 
-    public static String makeContentDirType(String id) {
+    private static String makeContentDirType(String id) {
         if (id != null) {
             return CONTENT_TYPE_DIR + id;
         } else {
@@ -126,7 +92,7 @@ public final class MovieContract {
         }
     }
 
-    public static String makeContentItemType(String id) {
+    private static String makeContentItemType(String id) {
         if (id != null) {
             return CONTENT_TYPE_ITEM + id;
         } else {

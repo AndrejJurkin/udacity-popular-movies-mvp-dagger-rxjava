@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -43,57 +44,54 @@ public class MovieContentProvider extends ContentProvider {
 
     private static final int MOVIES = 100;
     private static final int MOVIE_ID = 101;
-    private static final int MOVIE_ID_REVIEWS = 102;
-    private static final int MOVIE_ID_VIDEOS = 103;
-
-    private static final int REVIEWS = 200;
-    private static final int REVIEW_ID = 201;
-
-    private static final int VIDEOS = 300;
-    private static final int VIDEO_ID = 301;
 
     private static UriMatcher uriMatcher = buildUriMatcher();
 
-    @Inject
-    MovieDbHelper dbHelper;
-
-    @Inject
-    ContentResolver contentResolver;
+    private MovieDbHelper dbHelper;
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        // Movies
         uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIES, MOVIES);
         uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIES + "/#", MOVIE_ID);
-        uriMatcher.addURI(CONTENT_AUTHORITY,
-                PATH_MOVIES + "/" + PATH_REVIEWS + "/*", MOVIE_ID_REVIEWS);
-        uriMatcher.addURI(CONTENT_AUTHORITY,
-                PATH_MOVIES + "/" + PATH_VIDEOS + "/*", MOVIE_ID_VIDEOS);
-
-        // Reviews
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_REVIEWS, REVIEWS);
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_REVIEWS + "/*", REVIEW_ID);
-
-        // Videos
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_VIDEOS, VIDEOS);
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_VIDEOS + "/*", VIDEO_ID);
 
         return uriMatcher;
     }
 
     @Override
     public boolean onCreate() {
-//        App.get().getAppComponent().inject(this);
-
-        return false;
+        dbHelper = new MovieDbHelper(getContext());
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor;
+
+        switch (uriMatcher.match(uri)) {
+            case MOVIES:
+                // Falls through
+            case MOVIE_ID:
+                cursor = db.query(
+                        Tables.MOVIES,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if (getContext() != null)  {
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
+        return cursor;
     }
 
     @Nullable
@@ -104,10 +102,6 @@ public class MovieContentProvider extends ContentProvider {
                 return MovieEntry.CONTENT_TYPE;
             case MOVIE_ID:
                 return MovieEntry.CONTENT_TYPE_ITEM;
-            case MOVIE_ID_VIDEOS:
-                return VideoEntry.CONTENT_TYPE;
-            case MOVIE_ID_REVIEWS:
-                return ReviewEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -126,32 +120,56 @@ public class MovieContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case MOVIES:
-                db.insertOrThrow(Tables.MOVIES, null, values);
-                resultUri = MovieEntry.buildMovieUri(values.getAsLong(MovieEntry.MOVIE_ID));
-                break;
-            case REVIEWS:
-                db.insertOrThrow(Tables.REVIEWS, null, values);
-                resultUri = ReviewEntry.buildReviewUri(values.getAsString(ReviewEntry.REVIEW_ID));
-                break;
-            case VIDEOS:
-                db.insertOrThrow(Tables.VIDEOS, null, values);
-                resultUri = ReviewEntry.buildReviewUri(values.getAsString(VideoEntry.VIDEO_ID));
+                    db.insertOrThrow(Tables.MOVIES, null, values);
+                    resultUri = MovieEntry.buildMovieUri(values.getAsLong(MovieEntry.MOVIE_ID));
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown insert uri: " + uri);
         }
 
-        contentResolver.notifyChange(resultUri, null);
+        if (getContext() != null)  {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
         return resultUri;
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int deletedRows;
+
+        switch (uriMatcher.match(uri)) {
+            case MOVIES:
+                deletedRows = db.delete(Tables.MOVIES, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown insert uri: " + uri);
+        }
+
+        if (deletedRows > 0 && getContext() != null)  {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return deletedRows;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int updatedRows;
+
+        switch (uriMatcher.match(uri)) {
+            case MOVIES:
+                updatedRows = db.update(Tables.MOVIES, values, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown insert uri: " + uri);
+        }
+
+        if (updatedRows > 0 && getContext() != null)  {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return updatedRows;
     }
 }

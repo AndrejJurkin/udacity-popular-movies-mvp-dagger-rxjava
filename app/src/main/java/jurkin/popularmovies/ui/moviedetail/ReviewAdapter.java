@@ -18,8 +18,6 @@ package jurkin.popularmovies.ui.moviedetail;
 
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +31,6 @@ import butterknife.BindView;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseViewHolder;
 import jurkin.popularmovies.data.model.MovieReview;
-import rx.Observable;
 
 /**
  * Created by Andrej Jurkin on 6/2/17.
@@ -45,11 +42,11 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
     private List<MovieReview> data;
 
-    private HashSet<Integer> expanedPositions;
+    private HashSet<Integer> expandedPositions;
 
     ReviewAdapter() {
         this.data = new ArrayList<>();
-        this.expanedPositions = new HashSet<>();
+        this.expandedPositions = new HashSet<>();
     }
 
     @Override
@@ -75,12 +72,12 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
                 holder.readMoreButton.setVisibility(View.VISIBLE);
 
                 holder.readMoreButton.setOnClickListener(v -> {
-                    if (expanedPositions.contains(position)) {
-                        expanedPositions.remove(position);
+                    if (expandedPositions.contains(position)) {
+                        expandedPositions.remove(position);
                         holder.readMoreButton.setText(R.string.read_more);
                         holder.review.setMaxLines(REVIEW_MAX_LINES);
                     } else {
-                        expanedPositions.add(position);
+                        expandedPositions.add(position);
                         holder.readMoreButton.setText(R.string.show_less);
                         holder.readMoreButton.setVisibility(View.VISIBLE);
                         holder.review.setMaxLines(Integer.MAX_VALUE);
