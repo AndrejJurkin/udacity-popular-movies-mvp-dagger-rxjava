@@ -56,7 +56,6 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
         this.contentType = CONTENT_TYPE_POPULAR_MOVIES;
     }
 
-
     @Override
     public void setView(DiscoveryContract.View view) {
         this.view = view;
@@ -69,7 +68,6 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
         if (!isViewLoaded || contentType == CONTENT_TYPE_WATCHLIST) {
             isViewLoaded = true;
             loadContent();
-            view.setActionBarTitle(R.string.sort_most_popular);
         }
     }
 
@@ -124,12 +122,15 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
     private void loadContent() {
         switch (contentType) {
             case CONTENT_TYPE_POPULAR_MOVIES:
+                view.setActionBarTitle(R.string.sort_most_popular);
                 loadPopularMovies();
                 break;
             case CONTENT_TYPE_TOP_RATED:
+                view.setActionBarTitle(R.string.sort_top_rated);
                 loadTopRatedMovies();
                 break;
             case CONTENT_TYPE_WATCHLIST:
+                view.setActionBarTitle(R.string.watchlist);
                 loadWatchlist();
             default:
                 break;
