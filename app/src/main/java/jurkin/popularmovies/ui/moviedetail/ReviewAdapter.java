@@ -16,19 +16,24 @@
 
 package jurkin.popularmovies.ui.moviedetail;
 
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
 import jurkin.popularmovies.R;
 import jurkin.popularmovies.base.BaseViewHolder;
 import jurkin.popularmovies.data.model.MovieReview;
+import rx.Observable;
 
 /**
  * Created by Andrej Jurkin on 6/2/17.
@@ -36,10 +41,15 @@ import jurkin.popularmovies.data.model.MovieReview;
 
 class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
+    private static final int REVIEW_MAX_LINES = 4;
+
     private List<MovieReview> data;
+
+    private HashSet<Integer> expanedPositions;
 
     ReviewAdapter() {
         this.data = new ArrayList<>();
+        this.expanedPositions = new HashSet<>();
     }
 
     @Override
@@ -56,6 +66,31 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
         holder.author.setText(review.getAuthor());
         holder.review.setText(review.getContent());
+
+        holder.review.post(() -> {
+            int lines = holder.review.getLayout().getLineCount();
+            int ellipsizedLines = holder.review.getLayout().getEllipsisCount(lines - 1);
+
+            if (ellipsizedLines > 0) {
+                holder.readMoreButton.setVisibility(View.VISIBLE);
+
+                holder.readMoreButton.setOnClickListener(v -> {
+                    if (expanedPositions.contains(position)) {
+                        expanedPositions.remove(position);
+                        holder.readMoreButton.setText(R.string.read_more);
+                        holder.review.setMaxLines(REVIEW_MAX_LINES);
+                    } else {
+                        expanedPositions.add(position);
+                        holder.readMoreButton.setText(R.string.show_less);
+                        holder.readMoreButton.setVisibility(View.VISIBLE);
+                        holder.review.setMaxLines(Integer.MAX_VALUE);
+
+                    }
+                });
+            } else {
+                holder.readMoreButton.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -78,6 +113,9 @@ class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
         @BindView(R.id.review)
         TextView review;
+
+        @BindView(R.id.read_more_button)
+        AppCompatButton readMoreButton;
 
         ViewHolder(View itemView) {
             super(itemView);
