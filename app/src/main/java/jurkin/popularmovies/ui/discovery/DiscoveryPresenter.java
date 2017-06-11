@@ -66,7 +66,7 @@ class DiscoveryPresenter implements DiscoveryContract.Presenter {
     public void subscribe() {
         isViewSubscribed = true;
 
-        if (!isViewLoaded) {
+        if (!isViewLoaded || contentType == CONTENT_TYPE_WATCHLIST) {
             isViewLoaded = true;
             loadContent();
             view.setActionBarTitle(R.string.sort_most_popular);

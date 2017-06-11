@@ -123,6 +123,10 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         return cursor.getInt(cursor.getColumnIndexOrThrow(columnName));
     }
 
+    public static float getFloat(Cursor cursor, String columnName) {
+        return cursor.getFloat(cursor.getColumnIndexOrThrow(columnName));
+    }
+
     public static Date getDate(Cursor cursor, String columnName) {
         return new Date(getLong(cursor, columnName));
     }

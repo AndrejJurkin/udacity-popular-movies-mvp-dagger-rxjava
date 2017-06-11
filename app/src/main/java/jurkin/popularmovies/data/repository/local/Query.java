@@ -32,15 +32,22 @@ interface Query {
             + " ORDER BY " + MovieEntry.MOVIE_VOTE_AVERAGE + " DESC";
 
     String WATCHLIST = "SELECT * FROM " + Tables.MOVIES
-            + " WHERE " + MovieEntry.MOVIE_IN_WATCHLIST + " = 1";
+            + " WHERE " + Clause.MOVIE_IN_WATCHLIST;
 
     String MOVIE_ID = "SELECT * FROM " + Tables.MOVIES
-            + " WHERE " + MovieEntry.MOVIE_ID + " = ? ";
+            + " WHERE " + Clause.EQUALS_MOVIE_ID;
 
     String REVIEWS_MOVIE_ID = "SELECT * FROM " + Tables.REVIEWS
-            + " WHERE " + MovieEntry.MOVIE_ID + " = ? ";
+            + " WHERE " + Clause.EQUALS_MOVIE_ID;
 
     String VIDEOS_MOVIE_ID = "SELECT * FROM " + Tables.VIDEOS
-            + " WHERE " + MovieEntry.MOVIE_ID + " = ? ";
+            + " WHERE " + Clause.EQUALS_MOVIE_ID;
+
+    interface Clause {
+
+        String EQUALS_MOVIE_ID = MovieEntry.MOVIE_ID + " = ? ";
+
+        String MOVIE_IN_WATCHLIST = MovieEntry.MOVIE_IN_WATCHLIST + " = 1 ";
+    }
 
 }

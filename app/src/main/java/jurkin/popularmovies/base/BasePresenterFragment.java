@@ -32,6 +32,11 @@ public abstract class BasePresenterFragment<T extends BasePresenter> extends Bas
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         if (presenter != null) {
             presenter.subscribe();

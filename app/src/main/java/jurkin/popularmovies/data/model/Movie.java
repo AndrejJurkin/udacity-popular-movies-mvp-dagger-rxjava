@@ -43,12 +43,13 @@ public class Movie implements Parcelable {
         movie.setOverview(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_OVERVIEW));
         movie.setPopularity(MovieDbHelper.getLong(cursor, MovieEntry.MOVIE_POPULARITY));
         movie.setPosterPath(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_POSTER_PATH));
-        movie.setVoteAverage(MovieDbHelper.getLong(cursor, MovieEntry.MOVIE_VOTE_AVERAGE));
+        movie.setBackdropPath(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_BACKDROP_PATH));
         movie.setVoteCount(MovieDbHelper.getInt(cursor, MovieEntry.MOVIE_VOTE_COUNT));
-        movie.setInWatchlist(MovieDbHelper.getBoolean(cursor, MovieEntry.MOVIE_IN_WATCHLIST));
+        movie.setVoteAverage(MovieDbHelper.getFloat(cursor, MovieEntry.MOVIE_VOTE_AVERAGE));
         movie.setReleaseDate(MovieDbHelper.getDate(cursor, MovieEntry.MOVIE_RELEASE_DATE));
         movie.setOriginalLanguage(MovieDbHelper.getString(cursor, MovieEntry.MOVIE_ORIGINAL_LANGUAGE));
         movie.setRuntime(MovieDbHelper.getInt(cursor, MovieEntry.MOVIE_RUNTIME));
+        movie.setInWatchlist(MovieDbHelper.getBoolean(cursor, MovieEntry.MOVIE_IN_WATCHLIST));
         return movie;
     };
 
@@ -62,10 +63,10 @@ public class Movie implements Parcelable {
         cv.put(MovieEntry.MOVIE_POPULARITY, movie.getPopularity());
         cv.put(MovieEntry.MOVIE_POSTER_PATH, movie.getPosterPath());
         cv.put(MovieEntry.MOVIE_BACKDROP_PATH, movie.getBackdropPath());
-        cv.put(MovieEntry.MOVIE_VOTE_COUNT, movie.voteCount);
+        cv.put(MovieEntry.MOVIE_VOTE_COUNT, movie.getVoteCount());
+        cv.put(MovieEntry.MOVIE_VOTE_AVERAGE, movie.getVoteAverage());
         cv.put(MovieEntry.MOVIE_RELEASE_DATE, movie.getReleaseDate().getTime());
         cv.put(MovieEntry.MOVIE_ORIGINAL_LANGUAGE, movie.getOriginalLanguage());
-        cv.put(MovieEntry.MOVIE_IN_WATCHLIST, movie.isInWatchlist());
         cv.put(MovieEntry.MOVIE_RUNTIME, movie.getRuntime());
         return cv;
     }
@@ -260,6 +261,10 @@ public class Movie implements Parcelable {
 
     public void setInWatchlist(boolean inWatchlist) {
         isInWatchlist = inWatchlist;
+    }
+
+    public String[] getByIdArgs() {
+        return new String[]{String.valueOf(id)};
     }
 
     public Movie() {

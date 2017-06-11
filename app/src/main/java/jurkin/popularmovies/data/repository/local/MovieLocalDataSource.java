@@ -16,15 +16,11 @@
 
 package jurkin.popularmovies.data.repository.local;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.util.SparseArray;
 
 import com.squareup.sqlbrite.BriteDatabase;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,6 +30,7 @@ import jurkin.popularmovies.data.model.MovieReview;
 import jurkin.popularmovies.data.model.Video;
 import jurkin.popularmovies.data.repository.MovieDataSource;
 import jurkin.popularmovies.data.repository.local.MovieContract.MovieEntry;
+import jurkin.popularmovies.data.repository.local.Query.Clause;
 import rx.Observable;
 
 import static jurkin.popularmovies.data.repository.local.MovieDbHelper.*;
@@ -123,10 +120,7 @@ public class MovieLocalDataSource implements MovieDataSource {
         BriteDatabase.Transaction transaction = db.newTransaction();
 
         try {
-            for (Movie m : movies) {
-                db.insert(Tables.MOVIES, Movie.toContentValues(m));
-
-            }
+            movies.forEach(this::saveMovie);
             transaction.markSuccessful();
         } finally {
             transaction.end();
@@ -137,7 +131,13 @@ public class MovieLocalDataSource implements MovieDataSource {
 
     @Override
     public Observable<Void> saveMovie(Movie movie) {
-        db.insert(Tables.MOVIES, Movie.toContentValues(movie));
+        ContentValues cv = Movie.toContentValues(movie);
+        long id = db.insert(Tables.MOVIES, cv);
+
+        if (id == -1) {
+            db.update(Tables.MOVIES, cv, Clause.EQUALS_MOVIE_ID, movie.getByIdArgs());
+        }
+
         return Observable.just(null);
     }
 

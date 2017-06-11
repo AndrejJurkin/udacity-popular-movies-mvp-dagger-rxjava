@@ -61,22 +61,10 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    @SuppressLint("DefaultLocale")
     public void subscribe() {
         this.loadMovieDetails();
         this.loadMovieVideos();
         this.loadMovieReviews();
-
-        this.view.setTitle(movie.getTitle());
-        this.view.setDescription(movie.getOverview());
-        this.view.setMainImage(movie.getFullBackdropPath());
-        this.view.setPosterImage(movie.getFullPosterPath());
-        this.view.setUserRating(String.format("%.1f (%d)",
-                movie.getVoteAverage(), movie.getVoteCount()));
-
-        int watchlistButtonText = movie.isInWatchlist() ?
-                R.string.remove_from_watchlist : R.string.add_to_watchlist;
-        this.view.setWatchlistButtonText(watchlistButtonText);
     }
 
     @Override
@@ -102,15 +90,8 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 .subscribe(
                         movieDetails -> {
                             Log.d(TAG, "Movie details fetched successfully");
-                            Calendar releaseDate = Calendar.getInstance();
-                            releaseDate.setTime(movieDetails.getReleaseDate());
-
-                            String summary = String.format("%s, %s, %s mins",
-                                    movieDetails.getOriginalLanguage().toUpperCase(),
-                                    releaseDate.get(Calendar.YEAR),
-                                    movieDetails.getRuntime());
-
-                            this.view.setMovieDetailSummary(summary);
+                            this.movie = movieDetails;
+                            updateMovieDetails();
                         },
                         throwable -> Log.e(TAG, "Failed to fetch movie details: " + throwable)));
     }
@@ -138,5 +119,28 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                     // TODO: show error
                 })
         );
+    }
+
+    private void updateMovieDetails() {
+        this.view.setTitle(movie.getTitle());
+        this.view.setDescription(movie.getOverview());
+        this.view.setMainImage(movie.getFullBackdropPath());
+        this.view.setPosterImage(movie.getFullPosterPath());
+        this.view.setUserRating(String.format("%.1f (%d)",
+                movie.getVoteAverage(), movie.getVoteCount()));
+
+        int watchlistButtonText = movie.isInWatchlist() ?
+                R.string.remove_from_watchlist : R.string.add_to_watchlist;
+        this.view.setWatchlistButtonText(watchlistButtonText);
+
+        Calendar releaseDate = Calendar.getInstance();
+        releaseDate.setTime(movie.getReleaseDate());
+
+        String summary = String.format("%s, %s, %s mins",
+                movie.getOriginalLanguage().toUpperCase(),
+                releaseDate.get(Calendar.YEAR),
+                movie.getRuntime());
+
+        this.view.setMovieDetailSummary(summary);
     }
 }
