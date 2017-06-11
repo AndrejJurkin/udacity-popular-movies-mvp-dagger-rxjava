@@ -21,4 +21,6 @@
     <string name="add_to_watchlist">Add to watchlist</string>
     <string name="remove_from_watchlist">Remove from watchlist</string>
     <string name="watchlist">Watchlist</string>
+    <string name="read_more">Read More</string>
+    <string name="show_less">Show Less</string>
 </resources>

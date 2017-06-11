@@ -63,6 +63,10 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public void subscribe() {
         this.loadMovieDetails();
+
+        this.view.setMainImage(movie.getFullBackdropPath());
+        this.view.setPosterImage(movie.getFullPosterPath());
+
         this.loadMovieVideos();
         this.loadMovieReviews();
     }
@@ -124,8 +128,6 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private void updateMovieDetails() {
         this.view.setTitle(movie.getTitle());
         this.view.setDescription(movie.getOverview());
-        this.view.setMainImage(movie.getFullBackdropPath());
-        this.view.setPosterImage(movie.getFullPosterPath());
         this.view.setUserRating(String.format("%.1f (%d)",
                 movie.getVoteAverage(), movie.getVoteCount()));
 
