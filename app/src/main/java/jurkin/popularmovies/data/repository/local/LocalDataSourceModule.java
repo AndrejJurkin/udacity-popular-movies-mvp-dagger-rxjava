@@ -20,6 +20,7 @@ import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
 
+import com.squareup.sqlbrite.BriteContentResolver;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
@@ -54,5 +55,12 @@ public final class LocalDataSourceModule {
     @Singleton
     ContentResolver providesContentResolver(Context context) {
         return context.getContentResolver();
+    }
+
+    @Provides
+    @Singleton
+    BriteContentResolver providesBriteContentResolver(SqlBrite sqlBrite,
+                                                      ContentResolver contentResolver) {
+        return sqlBrite.wrapContentProvider(contentResolver, Schedulers.io());
     }
 }

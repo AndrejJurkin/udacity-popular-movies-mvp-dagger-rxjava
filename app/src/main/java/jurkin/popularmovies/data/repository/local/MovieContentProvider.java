@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -120,7 +121,7 @@ public class MovieContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case MOVIES:
-                    db.insertOrThrow(Tables.MOVIES, null, values);
+                    insertOrUpdateById(db, uri, Tables.MOVIES, values, MovieEntry.MOVIE_ID);
                     resultUri = MovieEntry.buildMovieUri(values.getAsLong(MovieEntry.MOVIE_ID));
                 break;
             default:
@@ -131,6 +132,34 @@ public class MovieContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return resultUri;
+    }
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int rowsInserted = 0;
+
+        switch (uriMatcher.match(uri)) {
+            case MOVIES:
+                db.beginTransaction();
+                try {
+                    for (ContentValues cv : values) {
+                        insertOrUpdateById(db, uri, Tables.MOVIES, cv, MovieEntry.MOVIE_ID);
+                    }
+                } finally {
+                    db.endTransaction();
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown insert uri: " + uri);
+        }
+
+        if (getContext() != null)  {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsInserted;
     }
 
     @Override
@@ -171,5 +200,19 @@ public class MovieContentProvider extends ContentProvider {
         }
 
         return updatedRows;
+    }
+
+    private void insertOrUpdateById(SQLiteDatabase db, Uri uri, String table,
+                                    ContentValues values, String column) throws SQLException {
+        try {
+            db.insertOrThrow(table, null, values);
+        } catch (SQLiteConstraintException e) {
+            long rowsUpdated = update(uri, values,
+                    column + " = ? ", new String[]{String.valueOf(values.getAsLong(column))});
+
+            if (rowsUpdated == 0) {
+                throw e;
+            }
+        }
     }
 }

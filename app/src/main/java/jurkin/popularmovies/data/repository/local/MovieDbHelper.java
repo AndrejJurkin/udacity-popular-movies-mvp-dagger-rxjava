@@ -73,7 +73,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + MovieEntry.MOVIE_RUNTIME + " INTEGER,"
                 + MovieEntry.MOVIE_ORIGINAL_LANGUAGE + " TEXT,"
                 + MovieEntry.MOVIE_IN_WATCHLIST + " INTEGER NOT NULL DEFAULT 0,"
-                + "UNIQUE (" + MovieEntry.MOVIE_ID + ") ON CONFLICT REPLACE)"
+                + "UNIQUE (" + MovieEntry.MOVIE_ID + ") ON CONFLICT IGNORE)"
         );
 
         db.execSQL("CREATE TABLE " + Tables.REVIEWS + " ("
