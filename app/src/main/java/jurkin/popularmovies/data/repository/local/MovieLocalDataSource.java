@@ -124,7 +124,9 @@ public class MovieLocalDataSource implements MovieDataSource {
         BriteDatabase.Transaction transaction = db.newTransaction();
 
         try {
-            movies.forEach(this::saveMovie);
+            for (Movie m : movies) {
+                saveMovie(m);
+            }
             transaction.markSuccessful();
         } finally {
             transaction.end();
